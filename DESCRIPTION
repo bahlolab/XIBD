@@ -1,0 +1,21 @@
+Package: XIBD
+Type: Package
+Title: Identical By Descent Analysis
+Version: 0.1.0
+Author: Lyndal Henden
+Maintainer: <henden.l@wehi.edu.au>
+Description: XIBD uses SNP genotype data to infer regions of the genome that are identical by descent (IBD) between pairs of individuals.
+  It can be used on autosomes as well as the X chromosome and the results can be interpreted by several helpful plots.
+License: None
+LazyData: TRUE
+Imports:
+    Rcpp (>= 0.12.5),
+    data.table,
+    doParallel,
+    foreach,
+    ggplot2
+LinkingTo: Rcpp
+RoxygenNote: 5.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

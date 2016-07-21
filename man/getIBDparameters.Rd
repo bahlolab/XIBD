@@ -26,7 +26,7 @@ Both \code{autosome_parameters} and \code{X_chromosome_parameters} are data fram
 \item Probability of sharing 1 allele IBD (type \code{"numeric"})
 \item Probability of sharing 2 alleles IBD (type \code{"numeric"})
 }
-headed \code{fid.1, iid1, fid.2, iid2, m, ibd0, ibd1} and \code{ibd2}, respectively.
+headed \code{fid1, iid1, fid2, iid2, m, ibd0, ibd1} and \code{ibd2}, respectively.
 Each row describes parameters for a unique pair of samples.
 \code{autosome_parameters} will be \code{NULL} if chromosomes 1-22 are all excluded
 from \code{ped.genotypes} and \code{X_chromosome_parameters} will be \code{NULL} if

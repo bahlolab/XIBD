@@ -13,7 +13,8 @@ Imports:
     data.table,
     doParallel,
     foreach,
-    ggplot2
+    ggplot2,
+    identity
 LinkingTo: Rcpp
 RoxygenNote: 5.0.1
 Suggests: knitr,

@@ -116,6 +116,7 @@ calculateAlleleFreq | calculate population allele frequencies
 getGenotypes | get genotypes from haplotype data and perform data filtering
 getIBDparameters | estimate IBD parameters between pairs
 getIBDsegments | detect IBD segments between pairs
+getIdentityCoef |  calculate identity coefficients from a pedigree
 getLocusMatrix | create a binary matrix of IBD/non-IBD for each SNP and pair
 getLocusProportions | calculate the proportion of pairs IBD at each SNP
 plotIBDproportions | plot the proportion of pairs IBD across the genome
@@ -278,14 +279,14 @@ plotting the proportion of pairs IBD at each SNP.
 ```{r, fig.width = 7, fig.height = 5}
 
 # get IBD proportions
-locus_matrix <- getLocusMatrix(ped.genotypes = my_genotypes_2, 
+my_locus_matrix <- getLocusMatrix(ped.genotypes = my_genotypes_2, 
                                ibd.segments = my_ibd)
-locus_prop <- getLocusProportion(ped.genotypes = my_genotypes_2, 
-                                 locus.matrix = locus_matrix, 
+my_locus_prop <- getLocusProportion(ped.genotypes = my_genotypes_2, 
+                                 locus.matrix = my_locus_matrix, 
                                  groups = NULL)
 
 # plot IBD proportions
-plotIBDproportions(locus.proportions = locus_prop, 
+plotIBDproportions(locus.proportions = my_locus_prop, 
                    interval = NULL,
                    annotation.genes = NULL, 
                    highlight.genes = NULL, 
@@ -295,4 +296,28 @@ plotIBDproportions(locus.proportions = locus_prop,
 ```    
 
 
+### Identity Coefficients
+
+Identity coefficients can be computed given a pedigree as follows.
+
+**NOTE: this function requires all individual IDs to be numeric and hence some manual formatting 
+of the pedigree may be required. Additionally, individuals in the pedigree should be numbered in 
+a way such that every parent precedes his or her children.**
+
+```{r}
+
+# get identity coefficients
+my_pedigree <- data.frame(fid = rep(1,16), 
+                          iid = 1:16, 
+                          pid = c(0,0,0,1,1,0,0,4,6,0,7,0,0,9,11,13),
+                          mid = c(0,0,0,2,2,0,0,3,5,0,8,0,0,10,12,14), 
+                          sex = c(1,2,2,1,2,1,1,2,1,2,1,2,1,2,2,1), 
+                          aff = rep(1,16))
+
+identity_coef <- getIdentityCoef(pedigree = my_pedigree, 
+                                 number.cores = 5)
+
+head(identity_coef)
+
+```
 

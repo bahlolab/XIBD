@@ -5,6 +5,7 @@ http://bahlolab.github.io/XIBD/
 ## Features
 
 * Estimates relatedness parameters for autosomes and the X chromosome
+* Computes identity coefficients for autosomes and the X chromosome
 * Detects genomic regions that are identical by descent (IBD) for autosomes and the X chromosome
 * Allows the user to select one of two models to infer IBD
 * Plots IBD segments for simple interpretation of results

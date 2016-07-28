@@ -197,6 +197,9 @@ getIBDsegments <- function(ped.genotypes, parameters, model = NULL, chromosomes 
           initial.prob[1] <- 0.001
           initial.prob[2] <- 0.999
         }
+        if (sum(initial.prob) != 1) {
+          initial.prob <- c(initial.prob[1]/sum(initial.prob), initial.prob[2]/sum(initial.prob), initial.prob[3]/sum(initial.prob))
+        }
 
         pair.genotypes <- cbind(genotypes[genotypes[,"chr"] == chrom,paste(fid.1,iid.1,sep="/")], genotypes[genotypes[,"chr"] == chrom,paste(fid.2,iid.2,sep="/")])
         positions.m  <- genotypes[genotypes[,"chr"] == chrom,"pos_M"]

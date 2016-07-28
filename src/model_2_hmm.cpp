@@ -1501,10 +1501,14 @@ IntegerVector calculate_viterbi_m2(const int noStates, NumericVector piProb, int
           deltaA[i] = delta(t-1,i) + tProb ;
         }
         if(chrom == 23 && gender1 == 1 && gender2 == 1){
-          deltaA[i] = delta(t-1,i) + log(transitionProbHH(piProb[0],meiosis,positionM[t]-positionM[t-1],j,i)) ;
+          tProb = log(transitionProbHH(piProb[0],meiosis,positionM[t]-positionM[t-1],j,i)) ;
+          if(tProb < -100000) tProb = log(0.00001);
+          deltaA[i] = delta(t-1,i) + tProb ;
         }
         if((chrom == 23 && gender1 == 1 && gender2 == 2) || (chrom == 23 && gender1 == 2 && gender2 == 1)){
-          deltaA[i] = delta(t-1,i) + log(transitionProbHD(piProb[0],meiosis,positionM[t]-positionM[t-1],j,i)) ;
+          tProb = log(transitionProbHD(piProb[0],meiosis,positionM[t]-positionM[t-1],j,i)) ;
+          if(tProb < -100000) tProb = log(0.00001);
+          deltaA[i] = delta(t-1,i) + tProb ;
         }
       }
       currentGeno[0] = genotypes(t,0); currentGeno[1] = genotypes(t,1);

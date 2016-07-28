@@ -3,7 +3,7 @@
 \docType{data}
 \name{example_pedmap}
 \alias{example_pedmap}
-\title{Simulated IBD data}
+\title{Simulated IBD Data for Example}
 \format{List with two objects
 \describe{
 \item{PED}{PLINK PED data frame. See \code{\link{getGenotypes}} for details.}

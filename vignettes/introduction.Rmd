@@ -90,7 +90,9 @@ where each row describes a the correlation between a single pair of SNPs.
 
 
 XIBD calculates population allele frequencies and haplotype frequencies (`model=2` only) from either the input dataset or a reference dataset. 
-HapMap phase 2 and 3 PED, MAP and LD reference data (hg19/build 37) for the 11 HapMap populations can be downloaded from link/to/web.
+HapMap phase 2 and 3 PED, MAP and LD reference data (hg19/build 37) for the 11 HapMap populations can be downloaded from http://bioinf.wehi.edu.au/software/XIBD/.
+These files are in `.rds` format and can be loaded into R using `readRDS`.
+
 **NOTE: XIBD should not be used with small reference datasets; reference populations that do not match the input population or cohorts of mixed populations.**
 
 HapMap Annotation | Population Description
@@ -125,7 +127,7 @@ switchBOTgenotypes | switch A and B alleles for Illumina SNPs named using the TO
 
 ## Example
 
-Below is an IBD analysis performed on simulated data to demonstrate the steps involved in XIBD. 
+Below is an IBD analysis performed on simulated data to demonstrate the steps involved in XIBD. Change the parameters for each function to see how it affects the results.
 
 ### Format and Filter PED/MAP 
 
@@ -136,11 +138,14 @@ We begin by formatting and filtering input PED and MAP haplotype.
 # load XIBD library
 library(XIBD)
 
+# lets look at the data
+str(example_pedmap)
+
 # format and filter the example data
 my_genotypes <- getGenotypes(ped.map = example_pedmap,
-                             reference.ped.map = reference_pedmap,
-                             snp.ld = NULL,
-                             model = 1,
+                             reference.ped.map = example_reference_pedmap,
+                             snp.ld = example_reference_ld,
+                             model = 2,
                              maf = 0.01,
                              sample.max.missing = 0.1,
                              snp.max.missing = 0.1,
@@ -177,12 +182,12 @@ In fact, alleles that have been named according to the BOT designation actually 
 This discrepancy will result in population allele frequencies that differ considerably between the input dataset and the
 reference dataset, which will produce an unreliable analysis.
 
-To correct for this, \code{switchBOTgenotypes()} switches the A and B alleles in the filtered dataset for all SNPs corresponding to 
+To correct for this, `switchBOTgenotypes()` switches the A and B alleles in the filtered dataset for all SNPs corresponding to 
 Illumina BOT designations. 
-This mean a homozygous genotype, 0, will be changed to a homozygous alternative genotype, 2, and vis versa. 
-Heterozygous genotypes will be unchanged.
+This mean a homozygous reference genotype, 0, will be changed to a homozygous alternative genotype, 2, and vis versa. 
+Heterozygous genotypes remain unchanged.
 
-For the purpose of this example, we simulated data using Illumina's naming convention and the reference data is HapMap reference data.
+For the purpose of this example, we simulated data using Illumina's naming convention.
 
 **NOTE: this function should only be implemented with Illumina data when HapMap reference data is used
 and if there is a noticeable discrepancy between population allele frequencies calculated from the HapMap reference data
@@ -198,8 +203,7 @@ hist(abs(my_genotypes[["genotypes"]][,"freq"] - input_freq[,"freq"]),
      xlab = "abs(pop allele freq diff)")
 
 # switch alleles
-my_genotypes_2 <- switchBOTgenotypes(ped.genotypes = my_genotypes, 
-                                     topbot.annotation = reference_topbot)
+my_genotypes_2 <- switchBOTgenotypes(ped.genotypes = my_genotypes)
 
 # calculate allele frequencies when BOT alleles switched
 input_freq <- calculateAlleleFreq(ped.genotypes = my_genotypes_2)

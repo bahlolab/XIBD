@@ -23,12 +23,9 @@
 #' @param ped.genotypes a named list containing \code{pedigree}, \code{genotypes} and \code{model}.
 #' See \code{Value} description in \code{\link{getGenotypes}} for more details.
 #' The family IDs and individual IDs in \code{pedigree} must match the family IDs and individual IDs in the header of \code{genotypes}.
-#' @param topbot.annotation the annotation file provided by XIBD containing information of TOPBOT status for each SNP
-#' and population allele frequencies of the 11 HapMap populations.
-#' This file can be downloaded from \url{http://bioinf.wehi.edu.au/software/XIBD}.
 #' @return A named list of the same format as the input \code{ped.genotypes} with A and B alleles switched for BOT SNPs.
 #' @export
-switchBOTgenotypes <- function(ped.genotypes, topbot.annotation) {
+switchBOTgenotypes <- function(ped.genotypes) {
 
   # check format of input data
   stopifnot(is.list(ped.genotypes) | length(ped.genotypes) == 3)
@@ -60,15 +57,8 @@ switchBOTgenotypes <- function(ped.genotypes, topbot.annotation) {
     samples <- colnames(genotypes)[!(colnames(genotypes) %in% c("chr","snp_id","pos_M","pos_bp","freq","condition_snp", "pba", "pbA", "pBa", "pBA", "freq_condition_snp"))]
   }
 
-  # check topbot annotation
-  stopifnot(is.data.frame(topbot.annotation))
-  if(ncol(topbot.annotation) != 18)
-    stop("'topbot.annotation' has incorrect format")
-  if(!all(colnames(topbot.annotation) %in% c("chr","snp_id","pos_bp","pos_M","TOPBOT","A","B","CEU","ASW","CHB","CHD","GIH","JPT","LWK","MEX","MKK","TSI","YRI")))
-    stop ("'topbot.annotation' has incorrect format")
-
   # merge annotation file with genotype data
-  genotype.topbot    <- merge(genotypes, topbot.annotation, by="snp_id")
+  genotype.topbot    <- merge(genotypes, hapmap_topbot, by="snp_id")
   genotype.topbot.v1 <- genotype.topbot[order(genotype.topbot[,"chr.x"],genotype.topbot[,"pos_bp.x"]),]
   if (nrow(genotype.topbot.v1) != nrow(genotypes))
     stop("missing TOPBOT information for some SNPs")

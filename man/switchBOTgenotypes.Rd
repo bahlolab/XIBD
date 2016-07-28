@@ -4,16 +4,12 @@
 \alias{switchBOTgenotypes}
 \title{XIBD BOT Genotype Switching}
 \usage{
-switchBOTgenotypes(ped.genotypes, topbot.annotation)
+switchBOTgenotypes(ped.genotypes)
 }
 \arguments{
 \item{ped.genotypes}{a named list containing \code{pedigree}, \code{genotypes} and \code{model}.
 See \code{Value} description in \code{\link{getGenotypes}} for more details.
 The family IDs and individual IDs in \code{pedigree} must match the family IDs and individual IDs in the header of \code{genotypes}.}
-
-\item{topbot.annotation}{the annotation file provided by XIBD containing information of TOPBOT status for each SNP
-and population allele frequencies of the 11 HapMap populations.
-This file can be downloaded from \url{http://bioinf.wehi.edu.au/software/XIBD}.}
 }
 \value{
 A named list of the same format as the input \code{ped.genotypes} with A and B alleles switched for BOT SNPs.

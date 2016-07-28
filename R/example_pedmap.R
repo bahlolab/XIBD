@@ -1,4 +1,4 @@
-#' Simulated IBD data
+#' Simulated IBD Data for Example
 #'
 #' Simulated haplotype data in PLINK PED/MAP format for 28,808 SNPs
 #' from chromosomes 1-23.

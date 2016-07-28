@@ -129,6 +129,8 @@ switchBOTgenotypes | switch A and B alleles for Illumina SNPs named using the TO
 
 Below is an IBD analysis performed on simulated data to demonstrate the steps involved in XIBD. Change the parameters for each function to see how it affects the results.
 
+**NOTE: R has a memory limit and if you try to exceed that limit, the error message begins `cannot allocate vector of length`. The number of bytes in a character string is limited to 2^31 - 1 ~ 2*10^9, which is also the limit on each dimension of an array.**
+
 ### Format and Filter PED/MAP 
 
 We begin by formatting and filtering input PED and MAP haplotype.

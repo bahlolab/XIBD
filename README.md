@@ -1,6 +1,5 @@
 # XIBD: software for inferring pairwise identity by descent
 
-http://bahlolab.github.io/XIBD/
 
 ## Features
 
@@ -20,7 +19,7 @@ XIBD is currently available to install as a development version from Github:
 devtools::install_github("bahlolab/XIBD")
 ```
 
-**The R package reference data will be made available from the [XIBD web page](http://bioinf.wehi.edu.au/software/XIBD/index.html) before August 2016.**
+The HapMap reference data is available from the [XIBD web page](http://bioinf.wehi.edu.au/software/XIBD/index.html).
 
 
 ## How to use XIBD

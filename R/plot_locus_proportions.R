@@ -177,15 +177,16 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
   if (is.null(interval)) {
     locus.df <- data.frame(pos=newpos,locus.interval[,5:ncol(locus.interval)])
     # add an extra row at the end of each chromosome with a missing value to disconnect the proportions
-    locus.df.1 <- NULL
-    for (i in chromosomes) {
-      locus.df.0 <- locus.df[locus.interval[,"chr"] == i,]
-      extra.row  <- rbind(c(max(locus.df.0[,"pos"]) + 1, rep(NA,ncol(locus.interval)-4)))
-      colnames(extra.row) <- colnames(locus.df.0)
-      locus.df.1 <- rbind(locus.df.1, locus.df.0, extra.row)
-    }
+    #locus.df.1 <- NULL
+    #for (i in chromosomes) {
+    #  locus.df.0 <- locus.df[locus.interval[,"chr"] == i,]
+    #  extra.row  <- rbind(c(max(locus.df.0[,"pos"]) + 1, rep(NA,ncol(locus.interval)-4)))
+    #  colnames(extra.row) <- colnames(locus.df.0)
+    #  locus.df.1 <- rbind(locus.df.1, locus.df.0, extra.row)
+    #}
     # create data.frame and melt it for ggplot
-    locus.df.1 <- data.frame(locus.df.1[1:(nrow(locus.df.1)-1),])
+    #locus.df.1 <- data.frame(locus.df.1[1:(nrow(locus.df.1)-1),])
+    locus.df.1 <- locus.df
     locus.df.melt <- data.table::melt(locus.df.1,id="pos")
     colnames(locus.df.melt) <- c("pos","pairs","value")
     locus.df.melt[,"pos"] <- as.numeric(locus.df.melt[,"pos"])

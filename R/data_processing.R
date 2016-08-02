@@ -84,7 +84,7 @@
 #' @param input.map.distance either "M" or "cM" denoting whether the genetic map distances in
 #' \code{ped.map} are in Morgans (M) or centi-Morgans (cM).
 #' @param reference.map.distance either "M" or "cM" denoting whether the genetic map distances in
-#' \code{reference.ped.map} are in Morgans (M) or centi-Morgans (cM).
+#' \code{reference.ped.map} are in Morgans (M) or centi-Morgans (cM). HapMap reference data is in Morgans.
 #' @return A named list of three objects:
 #' \enumerate{
 #' \item A pedigree containing the samples that remain after filtering. The pedigree is the first six columns
@@ -199,6 +199,7 @@ getGenotypes <- function(ped.map, reference.ped.map = NULL, snp.ld = NULL, model
   }
 
   # begin data filtering
+  cat(paste("Begin filtering of ",nrow(input.ped)," samples and ",nrow(input.map)," SNPs...\n",sep=""))
 
   # create new sample IDs from PED FIDs and IIDs
   sample.names <- paste(input.ped[,1], input.ped[,2], sep="/")
@@ -230,6 +231,9 @@ getGenotypes <- function(ped.map, reference.ped.map = NULL, snp.ld = NULL, model
     input.ped.v1      <- input.ped[,input.ped.columns]
     input.map.v2      <- input.map.v1[,c("chr", "snp_id", "pos_M", "pos_bp")]
   }
+  if (nrow(input.map.v2) == 0)
+    stop("0 SNPs remain after merging with reference dataset")
+  cat(paste(nrow(input.map.v2)," SNPs remain after merging with reference dataset...\n",sep=""))
 
 
   # call genotypes
@@ -257,7 +261,7 @@ getGenotypes <- function(ped.map, reference.ped.map = NULL, snp.ld = NULL, model
     }
   }
   colnames(input.genotypes.v1) <- c("chr", "snp_id", "pos_M","pos_bp", "freq", sample.names)
-  cat(paste("Begin filtering of ",length(sample.names)," samples and ",nrow(input.genotypes.v1)," SNPs...\n",sep=""))
+  #cat(paste("Begin filtering of ",length(sample.names)," samples and ",nrow(input.genotypes.v1)," SNPs...\n",sep=""))
 
 
   # remove SNPs with low population MAF

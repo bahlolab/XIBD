@@ -98,7 +98,7 @@ Autosomes are represented by numbers 1-22 and the X chromosome is denoted 23.}
 \code{ped.map} are in Morgans (M) or centi-Morgans (cM).}
 
 \item{reference.map.distance}{either "M" or "cM" denoting whether the genetic map distances in
-\code{reference.ped.map} are in Morgans (M) or centi-Morgans (cM).}
+\code{reference.ped.map} are in Morgans (M) or centi-Morgans (cM). HapMap reference data is in Morgans.}
 }
 \value{
 A named list of three objects:

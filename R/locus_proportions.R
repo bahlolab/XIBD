@@ -79,7 +79,9 @@ getLocusProportion <- function(ped.genotypes, locus.matrix, groups = NULL){
     groups.unique.pairs <- groupPairs(groups.unique)
     if (nrow(groups.unique.pairs) > 0) {
       for (i in 1:nrow(groups.unique.pairs)){
-        group.pairs[group.pairs[,1] == groups.unique.pairs[i,2] & group.pairs[,2] == groups.unique.pairs[i,1],] <- groups.unique.pairs[i,]
+        change.pair <- which(group.pairs[,1] == groups.unique.pairs[i,2] & group.pairs[,2] == groups.unique.pairs[i,1])
+        group.pairs[change.pair,1] <- groups.unique.pairs[i,1]
+        group.pairs[change.pair,2] <- groups.unique.pairs[i,2]
       }
     }
 

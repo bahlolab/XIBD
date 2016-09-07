@@ -33,7 +33,7 @@ or neither. No header row should be given.
 \enumerate{
 \item Chromosome (\code{"numeric"} or \code{"integer"})
 \item SNP identifier (type \code{"character"})
-\item Genetic map distance (centi morgans, cM, or morgans, M) (type \code{"numeric"})
+\item Genetic map distance (centi morgans cM, or morgans M - default) (type \code{"numeric"})
 \item Base-pair position (type \code{"numeric"} or \code{"integer"})
 }
 where each row describes a single marker. Genetic map distance and base-pair positions are expected to be positive values. The MAP file must
@@ -45,7 +45,8 @@ be ordered by increasing chromosomes and positions. SNP identifiers can contain 
 frequencies and haplotype frequencies, in the same format as \code{ped.map}.
 The default value is \code{reference.ped.map=NULL} and XIBD will calculate the population allele
 frequencies and haplotype frequencies from \code{ped.map}. This is not recommended for small datasets or
-datasets of mixed populations. HapMap phase 2 and 3 PED and MAP data (hg19/build 37) for the 11 HapMap populations
+datasets of mixed populations. Genetic map positions and base-pair positions in this dataset are used
+in the analysis. HapMap phase 2 and 3 PED and MAP data (hg19/build 37) for the 11 HapMap populations
 can be downloaded from \url{http://bioinf.wehi.edu.au/software/XIBD}.}
 
 \item{snp.ld}{optional for \code{model=1}; compulsory for \code{model=2}.
@@ -95,10 +96,10 @@ default is \code{chromosomes=NULL} which will format genotypes for all chromosom
 Autosomes are represented by numbers 1-22 and the X chromosome is denoted 23.}
 
 \item{input.map.distance}{either "M" or "cM" denoting whether the genetic map distances in
-\code{ped.map} are in Morgans (M) or centi-Morgans (cM).}
+\code{ped.map} are in Morgans (M) or centi-Morgans (cM). The default is Morgans.}
 
 \item{reference.map.distance}{either "M" or "cM" denoting whether the genetic map distances in
-\code{reference.ped.map} are in Morgans (M) or centi-Morgans (cM). HapMap reference data is in Morgans.}
+\code{reference.ped.map} are in Morgans (M) or centi-Morgans (cM). The default is Morgans. HapMap reference data is in Morgans.}
 }
 \value{
 A named list of three objects:

@@ -235,8 +235,10 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
   # annotation.genes:
   if (!is.null(annotation.genes)) {
     if(nrow(annotation.genes.1) != 0) {
-      min.y <- -0.05*max(locus.interval[,5:ncol(locus.interval)])
-      max.y <- -0.01*max(locus.interval[,5:ncol(locus.interval)])
+      #min.y <- -0.05*max(locus.interval[,5:ncol(locus.interval)])
+      #max.y <- -0.01*max(locus.interval[,5:ncol(locus.interval)])
+      min.y <- -0.05*max(locus.df.melt[,"value"])
+      max.y <- -0.01*max(locus.df.melt[,"value"])
       ggp <- ggp + ggplot2::geom_rect(data=annotation.genes.1, ggplot2::aes(xmin = start, xmax = end), ymin = min.y, ymax = max.y, alpha = 0.9, fill = ifelse(annotation.genes.1[,"strand"]=="+","gold","red"))
       ggp <- ggp + ggplot2::ylim(min.y, max(locus.interval[,5:ncol(locus.interval)]))
     }

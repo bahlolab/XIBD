@@ -193,7 +193,7 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
     locus.df.melt[,"value"] <- as.numeric(locus.df.melt[,"value"])
   } else {
     locus.df <- data.frame(pos=locus.interval[,"pos_bp"],locus.interval[,5:ncol(locus.interval)])
-    locus.df.melt <- melt(locus.df,id="pos")
+    locus.df.melt <- data.table::melt(locus.df,id="pos")
     colnames(locus.df.melt) <- c("pos","pairs","value")
   }
   number.groups <- ncol(locus.df) - 1

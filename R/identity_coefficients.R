@@ -75,6 +75,15 @@ getIdentityCoef <- function(pedigree, number.cores) {
   }
   colnames(ibd_coefs) <- c("fid1","iid1","fid2","iid2","a_i0","a_i1","a_i2","x_i0","x_i1","x_i2")
 
+  # change structure of data
+  ibd_coefs <- data.frame(ibd_coefs)
+  for(i in 1:4){
+    ibd_coefs[,i] <- as.character(ibd_coefs[,i])
+  }
+  for(i in 5:10){
+    ibd_coefs[,i] <- as.numeric(as.character(ibd_coefs[,i]))
+  }
+
   return(ibd_coefs)
 }
 

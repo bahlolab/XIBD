@@ -60,6 +60,8 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
   colnames(ibd.segments) <- c("fid1", "ind1", "fid2", "ind2", "chr", "start.snp", "end.snp", "start.position.bp",
                               "end.position.bp", "start.position.M", "end.position.M", "number.snps", "length.bp",
                               "length.M", "ibd.status")
+  if(nrow(ibd.segments) == 0)
+    stop("no IBD segments to plot")
 
   # check format of input data
   stopifnot(is.list(ped.genotypes) | length(ped.genotypes) == 3)

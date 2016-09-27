@@ -202,6 +202,8 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
 
   # setting up ggplot
   ggp <- ggplot2::ggplot()
+  if (is.null(interval))
+    ggp <- ggp + ggplot2::geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
   ggp <- ggp + ggplot2::geom_line(data = locus.df.melt, ggplot2::aes(pos, value, col = pairs))
   ggp <- ggp + ggplot2::scale_colour_manual(values = getColourPaletteMajor(number.groups))
   ggp <- ggp + ggplot2::theme_bw()
@@ -225,7 +227,7 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
   # interval:
   if (is.null(interval)) {
     ggp <- ggp + ggplot2::xlab("Chromosome")
-    ggp <- ggp + ggplot2::geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
+    #ggp <- ggp + ggplot2::geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
     ggp <- ggp + ggplot2::scale_x_continuous(breaks = labelpos, labels = chromosomes)
     ggp <- ggp + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5))
   } else {

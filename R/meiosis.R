@@ -28,8 +28,8 @@ calculateMeiosis <- function(omega.0,omega.1,omega.2){
     #z2 <- omega.1/z1
     m1 <- 1 - (log(z1)/log(2))
     m2 <- 1 - (log(z2)/log(2))
-    m <- min(m1,m2)[1]
-    #m <- m1 + m2
+    #m <- min(m1,m2)[1]
+    m <- m1 + m2
   }
   return(m)
 }
@@ -46,7 +46,7 @@ IBDparameters <- function(genotypes, pop_allele_freqs, gender_1, gender_2, chrom
     b <- bVectorHH(genotypes)
     A <- AmatrixHH(pop_allele_freqs,genotypes)
     x <- solve(t(A), b)
-    x <- round(x,3)
+    x <- round(x,4)
     x[3] <- 0
     if (x[1] > 1) {
       x[1] = 1
@@ -57,7 +57,7 @@ IBDparameters <- function(genotypes, pop_allele_freqs, gender_1, gender_2, chrom
     b <- bVectorHD(genotypes)
     A <- AmatrixHD(pop_allele_freqs,genotypes)
     x <- solve(t(A), b)
-    x <- round(x,3)
+    x <- round(x,4)
     x[3] <- 0
     if (x[1] > 1) {
       x[1] = 1
@@ -85,7 +85,7 @@ IBDparameters <- function(genotypes, pop_allele_freqs, gender_1, gender_2, chrom
       x[2] = 2*pi.*(1-pi.)
       x[3] = pi.^2
     }
-    x <- round(x,3)
+    x <- round(x,4)
   }
   meiosis <- calculateMeiosis(x[1], x[2], x[3])
   ibd_estimates <- cbind(meiosis, x[1], x[2], x[3])

@@ -29,4 +29,3 @@ These columns are labeled with merged family IDs and individual IDs separated by
 \description{
 Returns a binary matrix of IBD (1) and non-IBD (0) for each SNP and pair combination.
 }
-

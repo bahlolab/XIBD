@@ -18,4 +18,3 @@ for chromosomes 1-23.
 The data is for 102 samples and 28,808 SNPs.
 }
 \keyword{datasets}
-

@@ -37,7 +37,7 @@ Henden et al. (2016) XIBD: software for inferring pairwise identity by descent o
 ### PED and MAP Files
 
 
-The input for XIBD is unphased haplotype data for SNPs in PLINK PED and MAP format (http://pngu.mgh.harvard.edu/~purcell/plink/data).
+The input for XIBD is unphased haplotype data for SNPs in PLINK PED and MAP format (http://www.cog-genomics.org/plink2).
 
 A PED file is a white-space (space or tab) delimited file with the first six columns
 
@@ -71,7 +71,7 @@ The MAP file must contain as many markers as are in the PED file. No header row 
 ### LD File
 
 
-If `model=2` then a PLINK LD file is also required, see http://pngu.mgh.harvard.edu/~purcell/plink/ld for more details about this 
+If `model=2` then a PLINK LD file is also required, see http://www.cog-genomics.org/plink2 for more details about this 
 file and instructions on how to generate it.
 The LD file contains linkage disequilibrium information for pairs of SNPs and has 7 columns
 
@@ -189,6 +189,8 @@ Illumina BOT designations.
 This mean a homozygous reference genotype, 0, will be changed to a homozygous alternative genotype, 2, and vis versa. 
 Heterozygous genotypes remain unchanged.
 
+We have created an annotation file containing information on the TOP/BOT designations for each SNP in the HapMap data that can be downloaded from http://bioinf.wehi.edu.au/software/XIBD/. This file is required if you need to correct for the TOP/BOT naming convention.
+
 For the purpose of this example, we simulated data using Illumina's naming convention.
 
 **NOTE: this function should only be implemented with Illumina data when HapMap reference data is used
@@ -205,7 +207,8 @@ hist(abs(my_genotypes[["genotypes"]][,"freq"] - input_freq[,"freq"]),
      xlab = "abs(pop allele freq diff)")
 
 # switch alleles
-my_genotypes_2 <- switchBOTgenotypes(ped.genotypes = my_genotypes)
+my_genotypes_2 <- switchBOTgenotypes(ped.genotypes = my_genotypes, 
+                                     hapmap.topbot = example_hapmap_topbot)
 
 # calculate allele frequencies when BOT alleles switched
 input_freq <- calculateAlleleFreq(ped.genotypes = my_genotypes_2)
@@ -245,7 +248,7 @@ my_ibd <- getIBDsegments(ped.genotypes = my_genotypes_2,
                          parameters = my_parameters, 
                          model = NULL, 
                          chromosomes = NULL,
-                         number.cores = 5, 
+                         number.cores = 1, 
                          minimum.snps = 20, 
                          minimum.length.bp = 50000,
                          error = 0.001, 
@@ -269,7 +272,7 @@ plotIBDsegments(ibd.segments = my_ibd,
                 interval = NULL,
                 annotation.genes = NULL, 
                 highlight.genes = NULL, 
-                segment.hight = 0.5,
+                segment.height = 0.5,
                 number.per.page = NULL, 
                 add.fid.name = FALSE, 
                 add.iid.name = TRUE,
@@ -321,7 +324,7 @@ my_pedigree <- data.frame(fid = rep(1,16),
                           aff = rep(1,16))
 
 identity_coef <- getIdentityCoef(pedigree = my_pedigree, 
-                                 number.cores = 5)
+                                 number.cores = 1)
 
 head(identity_coef)
 

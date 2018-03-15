@@ -25,4 +25,3 @@ Allele frequencies of -1 indicate missing data for all samples for that SNP.
 \description{
 Calculate population allele frequencies from genotypes.
 }
-

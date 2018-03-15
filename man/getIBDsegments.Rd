@@ -82,4 +82,3 @@ Rows correspond to SNPs.
 \description{
 Detects genomic regions shared IBD between pairs.
 }
-

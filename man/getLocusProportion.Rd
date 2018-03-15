@@ -42,4 +42,3 @@ these column header by group IDs and the number of pairs in the group.
 \description{
 Calculate the proportion of pairs IBD at each SNP.
 }
-

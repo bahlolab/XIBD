@@ -5,7 +5,7 @@
 \title{XIBD Plot IBD Segments}
 \usage{
 plotIBDsegments(ibd.segments, ped.genotypes, interval = NULL,
-  annotation.genes = NULL, highlight.genes = NULL, segment.hight = 0.5,
+  annotation.genes = NULL, highlight.genes = NULL, segment.height = 0.5,
   number.per.page = NULL, add.fid.name = TRUE, add.iid.name = TRUE,
   add.rug = FALSE, plot.title = NULL, add.legend = TRUE)
 }
@@ -44,7 +44,7 @@ with respective labels.}
 This data frame does not have to be in a specific order, however it must contain all of the above information
 with respective labels.}
 
-\item{segment.hight}{the hight of IBD segment blocks, such that 0 < \code{segment.hight} <= 1. The default is \code{segment.hight=0.5}.}
+\item{segment.height}{the height of IBD segment blocks, such that 0 < \code{segment.height} <= 1. The default is \code{segment.height=0.5}.}
 
 \item{number.per.page}{the maximum number of IBD pairs to plot in a single praphics window. The default is
 \code{number.per.page=NULL} which will plot all IBD pairs in a single window. This may not be ideal when there are many IBD pairs. If
@@ -66,4 +66,3 @@ The default is \code{add.iid.name=TRUE}.}
 Plot IBD segments for pairs across the genome.
 Annotation genes can be added to the plot and specific genes on interest can be highlighted.
 }
-

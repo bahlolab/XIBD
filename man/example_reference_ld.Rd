@@ -23,4 +23,3 @@ A subset of the HapMap TSI linkage disequilibrium (LD) data for SNPs
 in the \code{example_pedmap.rda} file.
 }
 \keyword{datasets}
-

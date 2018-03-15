@@ -4,12 +4,25 @@
 \alias{switchBOTgenotypes}
 \title{XIBD BOT Genotype Switching}
 \usage{
-switchBOTgenotypes(ped.genotypes)
+switchBOTgenotypes(ped.genotypes, hapmap.topbot)
 }
 \arguments{
 \item{ped.genotypes}{a named list containing \code{pedigree}, \code{genotypes} and \code{model}.
 See \code{Value} description in \code{\link{getGenotypes}} for more details.
 The family IDs and individual IDs in \code{pedigree} must match the family IDs and individual IDs in the header of \code{genotypes}.}
+
+\item{hapmap.topbot}{a data frame containing the Illumina TOP/BOT designation for the HapMap SNPs.
+This file can be downloaded from \url{http://bioinf.wehi.edu.au/software/XIBD/index.html}.
+This file contains the following 7 columns of information:
+\enumerate{
+\item Chromosome (\code{"numeric"} or \code{"integer"})
+\item SNP identifier (type \code{"character"})
+\item Genetic map distance (centi morgans cM, or morgans M - default) (type \code{"numeric"})
+\item Base-pair position (type \code{"numeric"} or \code{"integer"})
+\item Illuminas TOP or BOT designation of the SNP (type \code{"character"})
+}
+where each row describes a single marker. The data frame should contain the header
+\code{chr, snp_id, pos_bp, pos_M} and \code{TOPBOT}.}
 }
 \value{
 A named list of the same format as the input \code{ped.genotypes} with A and B alleles switched for BOT SNPs.
@@ -25,7 +38,7 @@ and the remaining variation is labeled the B allele.
 \item If neither adenine (A) or cytosine (C) are variants of the SNP then thymine (T) is labeled the A allele.
 }
 Illuminas convention for the naming of A and B alleles differs to that of the HapMap data
-(http://www.illumina.com/documents/products/technotes/technote_topbot.pdf). Rather, the classification
+(\url{http://www.illumina.com/documents/products/technotes/technote_topbot.pdf}). Rather, the classification
 of A and B alleles depend on the top (TOP) and bottom (BOT) designations of the SNP. This
 means that the A allele in the HapMap data is not always the same as the A allele in the Illumina data. In
 fact, alleles that have been named according to the BOT designation actually correspond the the B allele
@@ -36,4 +49,3 @@ NOTE: this function should only be implemented with Illumina SNPchip data when X
 and if there is a noticeable discrepancy between population allele frequencies calculated from the HapMap reference data
 and those calculated from the input dataset.
 }
-

@@ -22,4 +22,3 @@ The data was simulated for SNPs from an Illumina SNPchip under Illuminas
 TOPBOT allele naming convention (see \code{switchBOTgenotypes}).
 }
 \keyword{datasets}
-

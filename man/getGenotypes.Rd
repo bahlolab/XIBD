@@ -65,7 +65,7 @@ where each row contains the LD information for a single pair of SNPs. The data f
 \code{CHR_A, BP_A, SNP_A, CHR_B, BP_B, SNP_B} and \code{R2}.
 HapMap phase 2 and 3 PED and MAP data (hg19/build 37) for the 11 HapMap populations
 can be downloaded from \url{http://bioinf.wehi.edu.au/software/XIBD}.
-Alternatively, an LD file can be created using using PLINK (\url{http://pngu.mgh.harvard.edu/~purcell/plink/ld}).}
+Alternatively, an LD file can be created using using PLINK (\url{http://www.cog-genomics.org/plink2}).}
 
 \item{model}{an integer of either 1 or 2 denoting which of the two models should be run.
 \enumerate{
@@ -139,4 +139,3 @@ allele frequencies and SNPs in high linkage disequilibrium (LD, based on R^2 if 
 Also, calculate population allele frequencies as well as haplotype frequencies between pairs of
 SNPs (based on R^2 if \code{model=2}).
 }
-

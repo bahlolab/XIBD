@@ -39,12 +39,11 @@ with respective labels.}
 This data frame does not have to be in a specific order, however it must contain all of the above information
 with respective labels.}
 
-\item{plot.title}{a character string of a title to be added to the plot. The default is \code{plot.title=NULL} which does not add a title to the plot.}
+\item{add.rug}{Logical. Whether to include SNP positions as a rug in the figure. The default is \code{add.rug=FALSE}}
 
-\item{add.legend}{a logical value indicating whether the IBD status legend should be plotted. The default is \code{add.legend=TRUE}.}
+\item{plot.title}{a character string of a title to be added to the plot. The default is \code{plot.title=NULL} which does not add a title to the plot.}
 }
 \description{
 Plot the proportion of pairs IBD for each SNP across the genome.
 Annotation genes can be added to the plot and specific genes on interest can be highlighted.
 }
-

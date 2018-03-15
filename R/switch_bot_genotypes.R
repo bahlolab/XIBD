@@ -10,7 +10,7 @@
 #' \item If neither adenine (A) or cytosine (C) are variants of the SNP then thymine (T) is labeled the A allele.
 #' }
 #' Illuminas convention for the naming of A and B alleles differs to that of the HapMap data
-#' (http://www.illumina.com/documents/products/technotes/technote_topbot.pdf). Rather, the classification
+#' (\url{http://www.illumina.com/documents/products/technotes/technote_topbot.pdf}). Rather, the classification
 #' of A and B alleles depend on the top (TOP) and bottom (BOT) designations of the SNP. This
 #' means that the A allele in the HapMap data is not always the same as the A allele in the Illumina data. In
 #' fact, alleles that have been named according to the BOT designation actually correspond the the B allele
@@ -23,9 +23,21 @@
 #' @param ped.genotypes a named list containing \code{pedigree}, \code{genotypes} and \code{model}.
 #' See \code{Value} description in \code{\link{getGenotypes}} for more details.
 #' The family IDs and individual IDs in \code{pedigree} must match the family IDs and individual IDs in the header of \code{genotypes}.
+#' @param hapmap.topbot a data frame containing the Illumina TOP/BOT designation for the HapMap SNPs.
+#' This file can be downloaded from \url{http://bioinf.wehi.edu.au/software/XIBD/index.html}.
+#' This file contains the following 7 columns of information:
+#' \enumerate{
+#' \item Chromosome (\code{"numeric"} or \code{"integer"})
+#' \item SNP identifier (type \code{"character"})
+#' \item Genetic map distance (centi morgans cM, or morgans M - default) (type \code{"numeric"})
+#' \item Base-pair position (type \code{"numeric"} or \code{"integer"})
+#' \item Illuminas TOP or BOT designation of the SNP (type \code{"character"})
+#' }
+#' where each row describes a single marker. The data frame should contain the header
+#' \code{chr, snp_id, pos_bp, pos_M} and \code{TOPBOT}.
 #' @return A named list of the same format as the input \code{ped.genotypes} with A and B alleles switched for BOT SNPs.
 #' @export
-switchBOTgenotypes <- function(ped.genotypes) {
+switchBOTgenotypes <- function(ped.genotypes, hapmap.topbot) {
 
   # check format of input data
   stopifnot(is.list(ped.genotypes) | length(ped.genotypes) == 3)
@@ -58,7 +70,7 @@ switchBOTgenotypes <- function(ped.genotypes) {
   }
 
   # merge annotation file with genotype data
-  genotype.topbot    <- merge(genotypes, hapmap_topbot, by="snp_id")
+  genotype.topbot    <- merge(genotypes, hapmap.topbot, by="snp_id")
   genotype.topbot.v1 <- genotype.topbot[order(genotype.topbot[,"chr.x"],genotype.topbot[,"pos_bp.x"]),]
   if (nrow(genotype.topbot.v1) != nrow(genotypes))
     stop("missing TOPBOT information for some SNPs")

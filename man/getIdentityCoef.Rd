@@ -45,4 +45,3 @@ Determines the identity coefficients based on a pedigree.
 Autosome coefficients are calculated using the R package \code{identity} while
 the X chromosome coefficients are implemented by \code{XIBD}.
 }
-

@@ -1,3 +1,5 @@
+#' to prevent notes
+globalVariables("pair.i")
 #' XIBD Parameter Estimation
 #'
 #' Estimate the number of meioses and the probabilities of sharing 0, 1 and 2 alleles IBD between pairs.
@@ -24,6 +26,8 @@
 #' from \code{ped.genotypes} and \code{X_chromosome_parameters} will be \code{NULL} if
 #' chromosome 23 is excluded from \code{ped.genotypes}.
 #' @importFrom foreach "%dopar%"
+#' @importFrom utils setTxtProgressBar txtProgressBar
+#' @importFrom stats quantile
 #' @export
 getIBDparameters <- function(ped.genotypes, number.cores = 1){
 
@@ -78,11 +82,11 @@ getIBDparameters <- function(ped.genotypes, number.cores = 1){
       pair.group <- start:nrow(isolate.pairs)
 
     # get IBD parameters for subgroups of pairs
-    ibd.estimates.0 <- foreach::foreach(pair=pair.group, .combine='mergeLists1') %dopar% {
-      fid.1    <- as.character(isolate.pairs[pair,1])
-      iid.1    <- as.character(isolate.pairs[pair,2])
-      fid.2    <- as.character(isolate.pairs[pair,3])
-      iid.2    <- as.character(isolate.pairs[pair,4])
+    ibd.estimates.0 <- foreach::foreach(pair.i=pair.group, .combine='mergeLists1') %dopar% {
+      fid.1    <- as.character(isolate.pairs[pair.i,1])
+      iid.1    <- as.character(isolate.pairs[pair.i,2])
+      fid.2    <- as.character(isolate.pairs[pair.i,3])
+      iid.2    <- as.character(isolate.pairs[pair.i,4])
       gender.1 <- pedigree[pedigree[,"fid"] == fid.1 & pedigree[,"iid"] == iid.1,"sex"]
       gender.2 <- pedigree[pedigree[,"fid"] == fid.2 & pedigree[,"iid"] == iid.2,"sex"]
       pair.genotypes   <- cbind(genotypes[,paste(fid.1,iid.1,sep="/")], genotypes[,paste(fid.2,iid.2,sep="/")])

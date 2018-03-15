@@ -1,36 +1,36 @@
-# Internal Function
-#
-# IBD Summary Table
-#
-# \code{getConditionSNP()} gets the SNP with the largest LD with the current SNP
-# and returns this as the condition SNP
-# @param genotypes A data frame containing genotype information for a set of SNPs.
-# See \code{\link{data_processing}} for more details.
-# @param snp.ld A data frame generated from PLINK containing information on LD between pairs
-# of SNPs (A and B). This data frame contains exactly 7 columns of informations:
-# \enumerate{
-# \item Chromosome of SNP A (type \code{"numeric"} or \code{"integer"})
-# \item Base-pair position of SNP A (type \code{"numeric"} or \code{"integer"})
-# \item SNP A identifier (type \code{"character"})
-# \item Chromosome of SNP B (type \code{"numeric"} or \code{"integer"})
-# \item Base-pair position of SNP B (type \code{"numeric"} or \code{"integer"})
-# \item SNP B identifier (type \code{"character"})
-# \item R-sequared LD statistic between SNP A and SNP B (type \code{"numeric"})
-# }
-# where each row contains the LD information for a single pair of SNPs. The data frame should contain the header
-# \code{colnames(snp.ld)=c(CHR_A, BP_A, SNP_A, CHR_B, BP_B, SNP_B, R2)}
-# @param maximum.ld.r2 A numeric value denoting the maximum linkage disequilibrium R2 value allowed
-# between pairs of SNPs.
-# @return A data frame containing columns
-# \enumerate{
-# \item Chromosome (type \code{numeric} or \code{integer})
-# \item SNP identifier (type \code{character})
-# \item Genetic map position (type \code{numeric} or \code{integer})
-# \item Base-pair position (type \code{numeric} or \code{integer})
-# \item Numeric SNP identifier (type \code{numeric} or \code{integer})
-# \item Numeric condition SNP identifier (type \code{numeric} or \code{integer})
-# }
-# with columns headed \code{chr, snp_id, pos_M, pos_bp, marker.id} and \code{cond.snp.id}.
+#' Internal Function
+#'
+#' IBD Summary Table
+#'
+#' Extracts the SNP with the largest LD with the current SNP
+#' and returns this as the condition SNP
+#' @param genotypes A data frame containing genotype information for a set of SNPs.
+#' See \code{\link{getGenotypes}} for more details.
+#' @param snp.ld A data frame generated from PLINK containing information on LD between pairs
+#' of SNPs (A and B). This data frame contains exactly 7 columns of informations:
+#' \enumerate{
+#' \item Chromosome of SNP A (type \code{"numeric"} or \code{"integer"})
+#' \item Base-pair position of SNP A (type \code{"numeric"} or \code{"integer"})
+#' \item SNP A identifier (type \code{"character"})
+#' \item Chromosome of SNP B (type \code{"numeric"} or \code{"integer"})
+#' \item Base-pair position of SNP B (type \code{"numeric"} or \code{"integer"})
+#' \item SNP B identifier (type \code{"character"})
+#' \item R-sequared LD statistic between SNP A and SNP B (type \code{"numeric"})
+#' }
+#' where each row contains the LD information for a single pair of SNPs. The data frame should contain the header
+#' \code{colnames(snp.ld)=c(CHR_A, BP_A, SNP_A, CHR_B, BP_B, SNP_B, R2)}
+#' @param maximum.ld.r2 A numeric value denoting the maximum linkage disequilibrium R2 value allowed
+#' between pairs of SNPs.
+#' @return A data frame containing columns
+#' \enumerate{
+#' \item Chromosome (type \code{numeric} or \code{integer})
+#' \item SNP identifier (type \code{character})
+#' \item Genetic map position (type \code{numeric} or \code{integer})
+#' \item Base-pair position (type \code{numeric} or \code{integer})
+#' \item Numeric SNP identifier (type \code{numeric} or \code{integer})
+#' \item Numeric condition SNP identifier (type \code{numeric} or \code{integer})
+#' }
+#' with columns headed \code{chr, snp_id, pos_M, pos_bp, marker.id} and \code{cond.snp.id}.
 getConditionSNP <- function(genotypes, snp.ld, maximum.ld.r2) {
   # create initial set of condition SNPs to be updated
   condition.snps <- data.frame(genotypes[,c("chr","snp_id","pos_M","pos_bp")],
@@ -74,15 +74,15 @@ getConditionSNP <- function(genotypes, snp.ld, maximum.ld.r2) {
 }
 
 
-# \code{getHaplotypeFreq()} calculates haplotype frequencies between two SNPs
-# using cpp scripts.
-# @param genotypes A data frame containing genotype information for a set of SNPs.
-# See \code{\link{data_processing}} for more details.
-# @param condition.snps A dataframe containging information on SNPs to condition on.
-# See \code{\link{getConditionSNP}} for more details.
-# @param genders A numeric vector of the genders of the individuals in the genotypes
-# data frame. 1 = male, 2 = female.
-# @return see return value from \code{\link{getGenotypes}} for more details.
+#' Calculates haplotype frequencies between two SNPs
+#' using cpp scripts.
+#' @param genotypes A data frame containing genotype information for a set of SNPs.
+#' See \code{\link{getGenotypes}} for more details.
+#' @param condition.snps A dataframe containging information on SNPs to condition on.
+#' See \code{\link{getConditionSNP}} for more details.
+#' @param genders A numeric vector of the genders of the individuals in the genotypes
+#' data frame. 1 = male, 2 = female.
+#' @return see return value from \code{\link{getGenotypes}} for more details.
 getHaplotypeFreq <- function(genotypes, condition.snps, genders) {
   # create matrix for results
   condition.matrix <- matrix(nrow=nrow(genotypes),ncol=6)
@@ -90,14 +90,14 @@ getHaplotypeFreq <- function(genotypes, condition.snps, genders) {
   # for each chromosome, get the haplotype frequencies
   start.row <- 1
   for (i in unique(condition.snps[,"chr"])) {
-    genotypes.chr <- as.matrix(subset(genotypes, chr == i, select=c(6:ncol(genotypes))))
-    condition.snps.chr <- as.matrix(subset(condition.snps, chr == i, select=c("marker.id","cond.snp.id")))
+    genotypes.chr <- as.matrix(genotypes[genotypes[,"chr"] == i,6:ncol(genotypes)])
+    condition.snps.chr <- as.matrix(condition.snps[condition.snps[,"chr"] == i,c("marker.id","cond.snp.id")])
     condition.matrix[start.row:(start.row + nrow(genotypes.chr) - 1),] <- calculateHaplotypeFreq(genotypes.chr, condition.snps.chr, genders, i, polyroot)
     start.row <- start.row + nrow(genotypes.chr)
   }
   # add column names and check for NAs
   condition.matrix.0 <- cbind(genotypes[,c("chr","snp_id","pos_M","pos_bp","freq")], condition.matrix)
-  colnames(condition.matrix.0) <- c("chr","snp_id","pos_M","pos_bp","freq","condition_snp", "pba", "pbA", "pBa", "pBA", "freq_condition_snp"); head(condition.matrix)
+  colnames(condition.matrix.0) <- c("chr","snp_id","pos_M","pos_bp","freq","condition_snp", "pba", "pbA", "pBa", "pBA", "freq_condition_snp")
   if (any(is.na(condition.matrix.0))) stop("An error has occurred when determining haplotype frequencies. Use 'model=1'")
   return(condition.matrix.0)
 }

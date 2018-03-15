@@ -32,7 +32,7 @@
 #' \code{highlight.genes} should contain the following headers \code{chr, name, start} and \code{end}.
 #' This data frame does not have to be in a specific order, however it must contain all of the above information
 #' with respective labels.
-#' @param segment.hight the hight of IBD segment blocks, such that 0 < \code{segment.hight} <= 1. The default is \code{segment.hight=0.5}.
+#' @param segment.height the height of IBD segment blocks, such that 0 < \code{segment.height} <= 1. The default is \code{segment.height=0.5}.
 #' @param number.per.page the maximum number of IBD pairs to plot in a single praphics window. The default is
 #' \code{number.per.page=NULL} which will plot all IBD pairs in a single window. This may not be ideal when there are many IBD pairs. If
 #' \code{number.per.page} is set, it is recommended to plot the output to a file as opposed to the R console.
@@ -43,10 +43,10 @@
 #' @param add.rug a logical value indicating whether SNP positions should be added to the plot. The default is \code{add.rug=TRUE}.
 #' @param plot.title a character string of a title to be added to the plot. The default is \code{plot.title=NULL} which does not add a title to the plot.
 #' @param add.legend a logical value indicating whether the IBD status legend should be plotted. The default is \code{add.legend=TRUE}.
-#' @importFrom ggplot2 ggplot
+#' @import ggplot2
 #' @export
 plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
-                             annotation.genes = NULL, highlight.genes = NULL, segment.hight = 0.5,
+                             annotation.genes = NULL, highlight.genes = NULL, segment.height = 0.5,
                              number.per.page = NULL, add.fid.name = TRUE, add.iid.name = TRUE, add.rug = FALSE,
                              plot.title = NULL, add.legend = TRUE) {
 
@@ -70,23 +70,6 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
   genotypes <- ped.genotypes[["genotypes"]]
   if(!all(colnames(genotypes)[1:5] %in% c("chr", "snp_id", "pos_M","pos_bp", "freq")))
     stop ("ped.genotypes has incorrect format")
-
-  # check groups
-  #if (!is.null(groups)) {
-  #  stopifnot(is.data.frame(groups))
-  #  stopifnot(ncol(groups) > 2)
-  #  if (ncol(groups) > 4){
-  #    cat("using first 4 columns of groups")
-  #    groups <- groups[,1:4]
-  #  }
-  #  colnames(groups)[1:2] <- c("fid","iid")
-
-    # check isolates belong to a group
-  #  group.names <- paste(groups[,"fid"],groups[,"iid"],sep="/")
-  #  isolate.names <- paste(pedigree[,"fid"],pedigree[,"iid"],sep="/")
-  #  if (!all(isolate.names %in% group.names))
-  #    stop("'groups' is missing information for some isoaltes")
-  #}
 
   # if interval specified
   if (!is.null(interval) & length(interval) == 3) {
@@ -196,12 +179,12 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
     }
   }
 
-  # check segment hight
-  stopifnot(is.numeric(segment.hight))
-  if (length(segment.hight) > 1)
-    segment.hight <- segment.hight[1]
+  # check segment height
+  stopifnot(is.numeric(segment.height))
+  if (length(segment.height) > 1)
+    segment.height <- segment.height[1]
 
-  # check segment hight
+  # check segment height
   if (!is.null(number.per.page)) {
     stopifnot(is.numeric(number.per.page))
     if (length(number.per.page) > 1)
@@ -254,30 +237,14 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
     chradd <- chradd[-1]
   }
 
-  # get group pairs for each ibd segment
-  #if (!is.null(groups)) {
-  #  for (i in 1:nrow(groups)) {
-  #    ibd.segments.1[ibd.segments.1[,"fid1"] %in% groups[i,1] & ibd.segments.1[,"ind1"] %in% groups[i,2],"group1"] <- groups[i,3]
-  #    ibd.segments.1[ibd.segments.1[,"fid2"] %in% groups[i,1] & ibd.segments.1[,"ind2"] %in% groups[i,2],"group2"] <- groups[i,3]
-  #  }
-  #  ibd.segments.1$group_pairs <- paste(ibd.segments.1[,"group1"],ibd.segments.1[,"group2"],sep="/")
-  #} else {
-  #  ibd.segments.1$group_pairs <- "all"
-  #}
-  #number.groups <- length(unique(ibd.segments.1$group_pairs))
 
   # for each unique group pair, get numeric values for pairs
   ibd.segments.1$unique.pairs.1 <- paste(ibd.segments.1[,"fid1"],ibd.segments.1[,"ind1"],ibd.segments.1[,"fid2"],ibd.segments.1[,"ind2"],sep="/")
   ibd.segments.2 <- NULL
-  #for (i in sort(unique(ibd.segments.1[,"group_pairs"]),decreasing=TRUE)) {
-  #  ibd.segments.i <- ibd.segments.1[ibd.segments.1[,"group_pairs"] == i,]
-  #  unique.pairs.i <- unique(paste(ibd.segments.i[,"fid1"],ibd.segments.i[,"ind1"],ibd.segments.i[,"fid2"],ibd.segments.i[,"ind2"],sep="/"))
   unique.pairs.i <- unique(ibd.segments.1$unique.pairs.1)
   num.ID <- 1:length(unique.pairs.i)
   numID  <- data.frame(unique.pairs.i, num.ID)
   ibd.segments.2 <- merge(ibd.segments.1,numID,by.x="unique.pairs.1",by.y="unique.pairs.i")
-  #ibd.segments.2 <- rbind(ibd.segments.2, merge(ibd.segments.1,numID,by.x="unique.pairs.1",by.y="unique.pairs.i"))
-  #}
 
   # set number per page
   if (!is.null(number.per.page)) {
@@ -302,52 +269,45 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
 
   for (i in unique(ibd.segments.2[,"page.num"])) {
     # base plot
-    p <- ggplot2::ggplot()
+    p <- ggplot()
     if (add.legend) {
-      p <- p + ggplot2::geom_rect(data=ibd.segments.2[ibd.segments.2[,"page.num"] == i,],
-                                  ggplot2::aes(xmin = start.position.bp, xmax = end.position.bp, ymin = num.ID, ymax = num.ID+segment.hight,
-                                               fill = ifelse(ibd.status == 1,"#69B4FF","#99DD55")), alpha=0.8)
-      p <- p + ggplot2::scale_fill_manual("", values = c("#69B4FF","#99DD55"), labels=c("IBD = 1", "IBD = 2"))
+      p <- p + geom_rect(data=ibd.segments.2[ibd.segments.2[,"page.num"] == i,],
+                         aes_(xmin = ~start.position.bp, xmax = ~end.position.bp, ymin = ~num.ID, ymax = ~num.ID+segment.height),
+                         fill = ifelse(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"ibd.status"] == 1,"#69B4FF","#99DD55"), alpha=0.8)
+      p <- p + scale_fill_manual(name="", values = c("#69B4FF","#99DD55"), labels=c("IBD = 1", "IBD = 2"))
     } else {
-      p <- p + ggplot2::geom_rect(data=ibd.segments.2[ibd.segments.2[,"page.num"] == i,],
-                                  ggplot2::aes(xmin = start.position.bp, xmax = end.position.bp, ymin = num.ID, ymax = num.ID+segment.hight),
-                                  fill = ifelse(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"ibd.status"] == 1,"#69B4FF","#99DD55"), alpha=0.8)
+      p <- p + geom_rect(data=ibd.segments.2[ibd.segments.2[,"page.num"] == i,],
+                         aes_(xmin = ~start.position.bp, xmax = ~end.position.bp, ymin = ~num.ID, ymax = ~num.ID+segment.height),
+                         fill = ifelse(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"ibd.status"] == 1,"#69B4FF","#99DD55"), alpha=0.8)
     }
-    p <- p + ggplot2::theme_bw()
-    p <- p + ggplot2::theme(panel.grid.minor = ggplot2::element_blank(),
-                            panel.grid.major = ggplot2::element_blank(),
-                            strip.background = ggplot2::element_rect(fill = "white",color = "white"),
-                            legend.title = ggplot2::element_blank(),
-                            strip.text.y = ggplot2::element_text(angle = 360),
-                            axis.title.y = ggplot2::element_blank())
-
-    # add facet
-    #p <- p + ggplot2::facet_grid(group_pairs~.)
-
-    # remove legend
-    #if (number.groups == 1)
-    #p <- p + ggplot2::theme(legend.position = "none")
+    p <- p + theme_bw()
+    p <- p + theme(panel.grid.minor = element_blank(),
+                            panel.grid.major = element_blank(),
+                            strip.background = element_rect(fill = "white",color = "white"),
+                            legend.title = element_blank(),
+                            strip.text.y = element_text(angle = 360),
+                            axis.title.y = element_blank())
 
     # add rug
     if (add.rug) {
       if (is.null(interval)) {
-        p <- p + ggplot2::geom_rug(ggplot2::aes(x = newpos), size = 0.1, colour = "gray30")
+        p <- p + geom_rug(aes(x = newpos), size = 0.1, colour = "gray30")
       } else
-        p <- p + ggplot2::geom_rug(data=genotypes[genotypes[,"chr"] == chr,], ggplot2::aes(x = pos_bp), size = 0.1, colour = "gray30")
+        p <- p + geom_rug(data=genotypes[genotypes[,"chr"] == chr,], aes_string(x = "pos_bp"), size = 0.1, colour = "gray30")
     }
 
     # add title
     if (!is.null(plot.title))
-      p <- p + ggplot2::ggtitle(plot.title)
+      p <- p + ggtitle(plot.title) + theme(plot.title = element_text(hjust = 0.5))
 
     # add highlighted genes
     if (!is.null(highlight.genes)) {
       if (nrow(highlight.genes.1) > 0) {
-        p <- p + ggplot2::geom_rect(data=highlight.genes.1, ggplot2::aes(xmin = start, xmax = end), ymin = -Inf, ymax = Inf, fill = "gray40",alpha = 0.1)
-        p <- p + ggplot2::geom_vline(data=highlight.genes.1, ggplot2::aes(xintercept = start), colour = "gray40", linetype = "solid", alpha = 0.1)
+        p <- p + geom_rect(data=highlight.genes.1, aes_string(xmin = "start", xmax = "end"), ymin = -Inf, ymax = Inf, fill = "gray40",alpha = 0.1)
+        p <- p + geom_vline(data=highlight.genes.1, aes_string(xintercept = "start"), colour = "gray40", linetype = "solid", alpha = 0.1)
         x.pos <- rowMeans(highlight.genes.1[,c("start","end")])
-        y.pos <- max(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"num.ID"]) + segment.hight + 0.1
-        p <- p + ggplot2::geom_text(data=highlight.genes.1, ggplot2::aes(x = x.pos, y = y.pos, label = name),
+        y.pos <- max(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"num.ID"]) + segment.height + 0.1
+        p <- p + geom_text(data=highlight.genes.1, aes_(x = x.pos, y = y.pos, label = ~name),
                                     colour = "gray20", angle = 0, hjust = 0.5, vjust = 0, size = 3, alpha = 0.8)
       }
     }
@@ -356,71 +316,71 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
     if (!is.null(annotation.genes)) {
       if (nrow(annotation.genes.1) > 0) {
         min.y <- 0.1*max(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"num.ID"])
-        y.limits <- c((0.5 - min.y), max(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"num.ID"]) + segment.hight + 0.1)
-        p <- p + ggplot2::geom_rect(data=annotation.genes.1, ggplot2::aes(xmin = start, xmax = end), ymin = 0.5, ymax = (0.5 - min.y), alpha = 0.9, fill = ifelse(annotation.genes.1[,"strand"]=="+","#FFE455","#FF7575"))
+        y.limits <- c((0.5 - min.y), max(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"num.ID"]) + segment.height + 0.1)
+        p <- p + geom_rect(data=annotation.genes.1, aes_string(xmin = "start", xmax = "end"), ymin = 0.5, ymax = (0.5 - min.y), alpha = 0.9, fill = ifelse(annotation.genes.1[,"strand"]=="+","#FFE455","#FF7575"))
       }
     }
 
     # change x axis labels
     if (is.null(interval)) {
-      p <- p + ggplot2::xlab("Chromosome")
-      p <- p + ggplot2::geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
-      p <- p + ggplot2::scale_x_continuous(breaks = labelpos, labels = chromosomes)
-      p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5))
+      p <- p + xlab("Chromosome")
+      p <- p + geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
+      p <- p + scale_x_continuous(breaks = labelpos, labels = chromosomes)
+      p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
     } else {
-      p <- p + ggplot2::xlab(paste("Chromosome", chr))
-      p <- p + ggplot2::coord_cartesian(xlim = c(start, stop))
+      p <- p + xlab(paste("Chromosome", chr))
+      p <- p + coord_cartesian(xlim = c(start, stop))
     }
 
     # change y axis labels
     if (add.fid.name & add.iid.name){
       y.labs <- ibd.segments.2[ibd.segments.2[,"page.num"] == i,]
       y.labs <- y.labs[!duplicated(y.labs[,"num.ID"]),]
-      y.breaks <- y.labs[,"num.ID"] + segment.hight/2
+      y.breaks <- y.labs[,"num.ID"] + segment.height/2
       y.labels <- paste(y.labs[,"fid1"], y.labs[,"ind1"], y.labs[,"fid2"], y.labs[,"ind2"],sep="/")
       if (!is.null(annotation.genes)) {
         if (nrow(annotation.genes.1) > 0) {
-          p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels, limits=y.limits)
+          p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels, limits=y.limits)
         } else
-          p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels)
+          p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels)
       } else
-        p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels)
+        p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels)
     }
     if (add.fid.name & !add.iid.name){
       y.labs <- ibd.segments.2[ibd.segments.2[,"page.num"] == i,]
       y.labs <- y.labs[!duplicated(y.labs[,"num.ID"]),]
-      y.breaks <- y.labs[,"num.ID"] + segment.hight/2
+      y.breaks <- y.labs[,"num.ID"] + segment.height/2
       y.labels <- paste(y.labs[,"fid1"], y.labs[,"fid2"],sep="/")
       if (!is.null(annotation.genes)) {
         if (nrow(annotation.genes.1) > 0) {
-          p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels, limits=y.limits)
+          p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels, limits=y.limits)
         } else
-          p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels)
+          p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels)
       } else
-        p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels)
+        p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels)
     }
     if (!add.fid.name & add.iid.name) {
       y.labs <- ibd.segments.2[ibd.segments.2[,"page.num"] == i,]
       y.labs <- y.labs[!duplicated(y.labs[,"num.ID"]),]
-      y.breaks <- y.labs[,"num.ID"] + segment.hight/2
+      y.breaks <- y.labs[,"num.ID"] + segment.height/2
       y.labels <- paste(y.labs[,"ind1"], y.labs[,"ind2"],sep="/")
       if (!is.null(annotation.genes)) {
         if (nrow(annotation.genes.1) > 0) {
-          p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels, limits=y.limits)
+          p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels, limits=y.limits)
         } else
-          p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels)
+          p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels)
       } else
-        p <- p + ggplot2::scale_y_continuous(breaks = y.breaks, labels = y.labels)
+        p <- p + scale_y_continuous(breaks = y.breaks, labels = y.labels)
     }
     if (!add.fid.name & !add.iid.name) {
       if (!is.null(annotation.genes)) {
         if (nrow(annotation.genes.1) > 0)
-          p <- p + ggplot2::ylim(y.limits[1], y.limits[2])
-        p <- p + ggplot2::theme(axis.text.y=ggplot2::element_blank(),
-                                axis.ticks=ggplot2::element_blank())
+          p <- p + ylim(y.limits[1], y.limits[2])
+        p <- p + theme(axis.text.y=element_blank(),
+                                axis.ticks=element_blank())
       } else
-        p <- p + ggplot2::theme(axis.text.y=ggplot2::element_blank(),
-                                axis.ticks=ggplot2::element_blank())
+        p <- p + theme(axis.text.y=element_blank(),
+                                axis.ticks=element_blank())
     }
 
     print(p)

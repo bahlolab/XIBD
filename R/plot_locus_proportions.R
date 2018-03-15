@@ -29,9 +29,9 @@
 #' \code{highlight.genes} should contain the following headers \code{chr, name, start} and \code{end}.
 #' This data frame does not have to be in a specific order, however it must contain all of the above information
 #' with respective labels.
-#' @param add.legend a logical value indicating whether the IBD status legend should be plotted. The default is \code{add.legend=TRUE}.
+#' @param add.rug Logical. Whether to include SNP positions as a rug in the figure. The default is \code{add.rug=FALSE}
 #' @param plot.title a character string of a title to be added to the plot. The default is \code{plot.title=NULL} which does not add a title to the plot.
-#' @importFrom ggplot2 ggplot
+#' @import ggplot2
 #' @export
 plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.genes = NULL, highlight.genes = NULL, add.rug = TRUE, plot.title = NULL){
 
@@ -176,16 +176,6 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
   # create dataframes for plotting
   if (is.null(interval)) {
     locus.df <- data.frame(pos=newpos,locus.interval[,5:ncol(locus.interval)])
-    # add an extra row at the end of each chromosome with a missing value to disconnect the proportions
-    #locus.df.1 <- NULL
-    #for (i in chromosomes) {
-    #  locus.df.0 <- locus.df[locus.interval[,"chr"] == i,]
-    #  extra.row  <- rbind(c(max(locus.df.0[,"pos"]) + 1, rep(NA,ncol(locus.interval)-4)))
-    #  colnames(extra.row) <- colnames(locus.df.0)
-    #  locus.df.1 <- rbind(locus.df.1, locus.df.0, extra.row)
-    #}
-    # create data.frame and melt it for ggplot
-    #locus.df.1 <- data.frame(locus.df.1[1:(nrow(locus.df.1)-1),])
     locus.df.1 <- locus.df
     locus.df.melt <- data.table::melt(locus.df.1,id="pos")
     colnames(locus.df.melt) <- c("pos","pairs","value")
@@ -201,37 +191,33 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
   # plot:
 
   # setting up ggplot
-  ggp <- ggplot2::ggplot()
+  ggp <- ggplot()
   if (is.null(interval))
-    ggp <- ggp + ggplot2::geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
-  ggp <- ggp + ggplot2::geom_line(data = locus.df.melt, ggplot2::aes(pos, value, col = pairs))
-  ggp <- ggp + ggplot2::scale_colour_manual(values = getColourPaletteMajor(number.groups))
-  ggp <- ggp + ggplot2::theme_bw()
-  ggp <- ggp + ggplot2::ylab("Proportion of Pairs IBD")
-  ggp <- ggp + ggplot2::theme(panel.grid.minor = ggplot2::element_blank(),
-                   panel.grid.major = ggplot2::element_blank(),
-                   legend.title = ggplot2::element_blank(),
-                   strip.background = ggplot2::element_rect(fill = "white",color = "white"),
-                   strip.text.y = ggplot2::element_text(angle = 360))
+    ggp <- ggp + geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
+  ggp <- ggp + geom_line(data = locus.df.melt, aes_string("pos", "value", col = "pairs"))
+  ggp <- ggp + scale_colour_manual(values = getColourPaletteMajor(number.groups))
+  ggp <- ggp + theme_bw()
+  ggp <- ggp + ylab("Proportion of Pairs IBD")
+  ggp <- ggp + theme(panel.grid.minor = element_blank(),
+                   panel.grid.major = element_blank(),
+                   legend.title = element_blank(),
+                   strip.background = element_rect(fill = "white",color = "white"),
+                   strip.text.y = element_text(angle = 360))
   if (add.rug)
-    ggp <- ggp + ggplot2::geom_rug(data=locus.df.melt, ggplot2::aes(x = pos), size = 0.1, colour = "gray30")
+    ggp <- ggp + geom_rug(data=locus.df.melt, aes_string(x = "pos"), size = 0.1, colour = "gray30")
   if (!is.null(plot.title))
-    ggp <- ggp + ggplot2::ggtitle(plot.title)
+    ggp <- ggp + ggtitle(plot.title) + theme(plot.title = element_text(hjust = 0.5))
   if (number.groups == 1)
-    ggp <- ggp + ggplot2::theme(legend.position = "none")
-
-  # one facet per group
-  #if (number.groups > 1)
-  #  ggp <- ggp + ggplot2::facet_grid(pairs~., scales="free")
+    ggp <- ggp + theme(legend.position = "none")
 
   # interval:
   if (is.null(interval)) {
-    ggp <- ggp + ggplot2::xlab("Chromosome")
-    #ggp <- ggp + ggplot2::geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
-    ggp <- ggp + ggplot2::scale_x_continuous(breaks = labelpos, labels = chromosomes)
-    ggp <- ggp + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5))
+    ggp <- ggp + xlab("Chromosome")
+    #ggp <- ggp + geom_vline(xintercept = chradd, colour = "gray87", linetype = "longdash")
+    ggp <- ggp + scale_x_continuous(breaks = labelpos, labels = chromosomes)
+    ggp <- ggp + theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
   } else {
-    ggp <- ggp + ggplot2::xlab(paste("Chromosome", chromosomes))
+    ggp <- ggp + xlab(paste("Chromosome", chromosomes))
   }
 
   # annotation.genes:
@@ -241,19 +227,19 @@ plotIBDproportions <- function(locus.proportions, interval = NULL, annotation.ge
       #max.y <- -0.01*max(locus.interval[,5:ncol(locus.interval)])
       min.y <- -0.05*max(locus.df.melt[,"value"])
       max.y <- -0.01*max(locus.df.melt[,"value"])
-      ggp <- ggp + ggplot2::geom_rect(data=annotation.genes.1, ggplot2::aes(xmin = start, xmax = end), ymin = min.y, ymax = max.y, alpha = 0.9, fill = ifelse(annotation.genes.1[,"strand"]=="+","gold","red"))
-      ggp <- ggp + ggplot2::ylim(min.y, max(locus.interval[,5:ncol(locus.interval)]))
+      ggp <- ggp + geom_rect(data=annotation.genes.1, aes_string(xmin = "start", xmax = "end"), ymin = min.y, ymax = max.y, alpha = 0.9, fill = ifelse(annotation.genes.1[,"strand"]=="+","gold","red"))
+      ggp <- ggp + ylim(min.y, max(locus.interval[,5:ncol(locus.interval)]))
     }
   }
 
   # highlight.genes:
   if (!is.null(highlight.genes)) {
     if(nrow(highlight.genes.1) != 0) {
-      ggp <- ggp + ggplot2::geom_rect(data=highlight.genes.1, ggplot2::aes(xmin = start, xmax = end), ymin = -Inf, ymax = Inf, fill = "gray40", alpha = 0.1)
-      ggp <- ggp + ggplot2::geom_text(data=highlight.genes.1, ggplot2::aes(x = start, y = 0, label = name), colour = "gray20", angle = 90, hjust = -0.1, vjust = -0.2, size = 3, alpha = 0.6)
-      ggp <- ggp + ggplot2::geom_vline(data=highlight.genes.1, ggplot2::aes(xintercept = start), colour = "gray40", linetype = "solid", alpha = 0.1)
+      ggp <- ggp + geom_rect(data=highlight.genes.1, aes_string(xmin = "start", xmax = "end"), ymin = -Inf, ymax = Inf, fill = "gray40", alpha = 0.1)
+      ggp <- ggp + geom_text(data=highlight.genes.1, aes_string(x = "start", y = 0, label = "name"), colour = "gray20", angle = 90, hjust = -0.1, vjust = -0.2, size = 3, alpha = 0.6)
+      ggp <- ggp + geom_vline(data=highlight.genes.1, aes_string(xintercept = "start"), colour = "gray40", linetype = "solid", alpha = 0.1)
     }
   }
 
-  plot(ggp)
+  print(ggp)
 }

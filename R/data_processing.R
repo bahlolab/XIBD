@@ -59,7 +59,7 @@
 #' \code{CHR_A, BP_A, SNP_A, CHR_B, BP_B, SNP_B} and \code{R2}.
 #' HapMap phase 2 and 3 PED and MAP data (hg19/build 37) for the 11 HapMap populations
 #' can be downloaded from \url{http://bioinf.wehi.edu.au/software/XIBD}.
-#' Alternatively, an LD file can be created using using PLINK (\url{http://pngu.mgh.harvard.edu/~purcell/plink/ld}).
+#' Alternatively, an LD file can be created using using PLINK (\url{http://www.cog-genomics.org/plink2}).
 #' @param model an integer of either 1 or 2 denoting which of the two models should be run.
 #' \enumerate{
 #' \item \code{model=1} is based on the HMM implemented in PLINK (Purcell et al., 2007) which assumes the SNPs
@@ -293,9 +293,11 @@ getGenotypes <- function(ped.map, reference.ped.map = NULL, snp.ld = NULL, model
     highLD <- c(snp.ld[snp.ld[,"R2"] > maximum.ld.r2, "SNP_A"], snp.ld[snp.ld[,"R2"] > maximum.ld.r2, "SNP_B"])
     if (length(highLD) > 0) {
       highLD <- unique(highLD)
-      input.genotypes.v4 <- subset(input.genotypes.v3, !(snp_id %in% highLD))
+      input.genotypes.v4 <- input.genotypes.v3[!(input.genotypes.v3[,"snp_id"] %in% highLD),]
+      #input.genotypes.v4 <- subset(input.genotypes.v3, !(snp_id %in% highLD))
       if (!is.null(reference.ped.map) & model == 2)
-        reference.genotypes.v4 <- subset(reference.genotypes.v3, !(snp_id %in% highLD))
+        reference.genotypes.v4 <- reference.genotypes.v3[!(reference.genotypes.v3[,"snp_id"] %in% highLD),]
+        #reference.genotypes.v4 <- subset(reference.genotypes.v3, !(snp_id %in% highLD))
     } else {
       input.genotypes.v4 <- input.genotypes.v3
       if (!is.null(reference.ped.map) & model == 2)

@@ -1,3 +1,5 @@
+#' to prevent notes
+globalVariables("pair.i")
 #' Identity Coefficients
 #'
 #' Determines the identity coefficients based on a pedigree.
@@ -62,11 +64,11 @@ getIdentityCoef <- function(pedigree, number.cores) {
   doParallel::registerDoParallel(cores=number.cores)
 
   # calculating coefficients
-  ibd_coefs <- foreach::foreach(j=1:nrow(sample_pairs), .combine='rbind') %dopar% {
-    fid.1 <- as.character(sample_pairs[j,1])
-    ind.1 <- as.numeric(sample_pairs[j,2])
-    fid.2 <- as.character(sample_pairs[j,3])
-    ind.2 <- as.numeric(sample_pairs[j,4])
+  ibd_coefs <- foreach::foreach(pair.i=1:nrow(sample_pairs), .combine='rbind') %dopar% {
+    fid.1 <- as.character(sample_pairs[pair.i,1])
+    ind.1 <- as.numeric(sample_pairs[pair.i,2])
+    fid.2 <- as.character(sample_pairs[pair.i,3])
+    ind.2 <- as.numeric(sample_pairs[pair.i,4])
     a.coef <- matrix(identity::identity.coefs(c(ind.1, ind.2), new_pedigree)[2,],nrow=1,ncol=11)
     ibd.coefs <- cbind(fid.1, ind.1, fid.2, ind.2,
                        ibd_coefs_A(a.coef),

@@ -37,6 +37,40 @@
 #' \code{chr, snp_id, pos_bp, pos_M} and \code{TOPBOT}.
 #' @return A named list of the same format as the input \code{ped.genotypes} with A and B alleles switched for BOT SNPs.
 #' @export
+#' @examples
+#' # The following should only be run if you have Illumina data and
+#' # are using the HapMap reference data provided by XIBD.
+#'
+#' # format and filter the data
+#' my_genotypes <- getGenotypes(ped.map = example_pedmap,
+#'                              reference.ped.map = example_reference_pedmap,
+#'                              snp.ld = example_reference_ld,
+#'                              model = 2,
+#'                              maf = 0.01,
+#'                              sample.max.missing = 0.1,
+#'                              snp.max.missing = 0.1,
+#'                              maximum.ld.r2 = 0.99,
+#'                              chromosomes = NULL,
+#'                              input.map.distance = "M",
+#'                              reference.map.distance = "M")
+#'
+#' # calculate allele frequencies from the input dataset
+#' input_freq <- calculateAlleleFreq(ped.genotypes = my_genotypes)
+#' hist(abs(my_genotypes[["genotypes"]][,"freq"] - input_freq[,"freq"]),
+#'      xlim = c(0,1),
+#'      main = "Before BOT change",
+#'      xlab = "abs(pop allele freq diff)")
+#'
+#' # switch alleles
+#' my_genotypes_2 <- switchBOTgenotypes(ped.genotypes = my_genotypes,
+#'                                      hapmap.topbot = example_hapmap_topbot)
+#'
+#' # calculate allele frequencies when BOT alleles switched
+#' input_freq <- calculateAlleleFreq(ped.genotypes = my_genotypes_2)
+#' hist(abs(my_genotypes_2[["genotypes"]][,"freq"] - input_freq[,"freq"]),
+#'      xlim = c(0,1),
+#'      main = "After BOT change",
+#'      xlab = "abs(pop allele freq diff)")
 switchBOTgenotypes <- function(ped.genotypes, hapmap.topbot) {
 
   # check format of input data

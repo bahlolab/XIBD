@@ -146,6 +146,22 @@ should also be numbered in a way such that every parent precedes his or her chil
 Each row describes identity coefficient for a unique pair of samples.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># generate a pedigree</span>
+<span class='no'>my_pedigree</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>fid</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>1</span>,<span class='fl'>16</span>),
+                          <span class='kw'>iid</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>16</span>,
+                          <span class='kw'>pid</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>4</span>,<span class='fl'>6</span>,<span class='fl'>0</span>,<span class='fl'>7</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>9</span>,<span class='fl'>11</span>,<span class='fl'>13</span>),
+                          <span class='kw'>mid</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>3</span>,<span class='fl'>5</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>10</span>,<span class='fl'>12</span>,<span class='fl'>14</span>),
+                          <span class='kw'>sex</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>1</span>),
+                          <span class='kw'>aff</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>1</span>,<span class='fl'>16</span>))
+
+<span class='co'># calculate identity coefficients</span>
+<span class='no'>identity_coef</span> <span class='kw'>&lt;-</span> <span class='fu'>getIdentityCoef</span>(<span class='kw'>pedigree</span> <span class='kw'>=</span> <span class='no'>my_pedigree</span>,
+                                 <span class='kw'>number.cores</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+<span class='fu'>head</span>(<span class='no'>identity_coef</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -153,7 +169,9 @@ Each row describes identity coefficient for a unique pair of samples.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

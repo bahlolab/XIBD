@@ -67,6 +67,21 @@ globalVariables("pair.i")
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @importFrom stats quantile
 #' @export
+#' @examples
+#' \dontrun{
+#' # infer IBD
+#' my_ibd <- getIBDsegments(ped.genotypes = example_genotypes,
+#'                          parameters = example_parameters,
+#'                          model = NULL,
+#'                          chromosomes = NULL,
+#'                          number.cores = 1,
+#'                          minimum.snps = 20,
+#'                          minimum.length.bp = 50000,
+#'                          error = 0.001,
+#'                          posterior = FALSE)
+#'
+#' str(my_ibd)
+#' }
 getIBDsegments <- function(ped.genotypes, parameters, model = NULL, chromosomes = NULL, number.cores = 1,
                            minimum.snps = 20, minimum.length.bp = 50000, error = 0.001, posterior = FALSE){
 

@@ -29,6 +29,12 @@ globalVariables("pair.i")
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @importFrom stats quantile
 #' @export
+#' @examples
+#' # estimate parameters
+#' my_parameters <- getIBDparameters(ped.genotypes = example_genotypes,
+#'                                   number.cores = 1)
+#'
+#' str(my_parameters)
 getIBDparameters <- function(ped.genotypes, number.cores = 1){
 
   # check input ped and genotypes

@@ -35,3 +35,10 @@ chromosome 23 is excluded from \code{ped.genotypes}.
 \description{
 Estimate the number of meioses and the probabilities of sharing 0, 1 and 2 alleles IBD between pairs.
 }
+\examples{
+# estimate parameters
+my_parameters <- getIBDparameters(ped.genotypes = example_genotypes,
+                                  number.cores = 1)
+
+str(my_parameters)
+}

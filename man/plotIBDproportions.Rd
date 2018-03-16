@@ -47,3 +47,21 @@ with respective labels.}
 Plot the proportion of pairs IBD for each SNP across the genome.
 Annotation genes can be added to the plot and specific genes on interest can be highlighted.
 }
+\examples{
+# generate a binary IBD matrix
+my_locus_matrix <- getLocusMatrix(ped.genotypes = example_genotypes,
+                                  ibd.segments = example_ibd)
+
+# calculate the proportion of pairs IBD at each SNP
+my_locus_prop <- getLocusProportion(ped.genotypes = example_genotypes,
+                                    locus.matrix = my_locus_matrix,
+                                    groups = NULL)
+
+# plot the proportion of pairs IBD
+plotIBDproportions(locus.proportions = my_locus_prop,
+                   interval = NULL,
+                   annotation.genes = NULL,
+                   highlight.genes = NULL,
+                   add.rug = TRUE,
+                   plot.title = NULL)
+}

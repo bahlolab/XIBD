@@ -116,6 +116,22 @@
 #' }
 #' The list is named \code{pedigree, genotypes} and \code{model} respectively.
 #' @export
+#' @examples
+#' # look at the simulated data
+#' str(example_pedmap)
+#'
+#' # format and filter the example data using model 2 and reference data
+#' my_genotypes <- getGenotypes(ped.map = example_pedmap,
+#'                              reference.ped.map = example_reference_pedmap,
+#'                              snp.ld = example_reference_ld,
+#'                              model = 2,
+#'                              maf = 0.01,
+#'                              sample.max.missing = 0.1,
+#'                              snp.max.missing = 0.1,
+#'                              maximum.ld.r2 = 0.99,
+#'                              chromosomes = NULL,
+#'                              input.map.distance = "M",
+#'                              reference.map.distance = "M")
 getGenotypes <- function(ped.map, reference.ped.map = NULL, snp.ld = NULL, model = 1, maf = 0.01, sample.max.missing = 0.1,
                          snp.max.missing = 0.1, maximum.ld.r2 = 0.99, chromosomes = NULL, input.map.distance = "M",
                          reference.map.distance = "M"){

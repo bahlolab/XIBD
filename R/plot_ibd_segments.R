@@ -45,6 +45,20 @@
 #' @param add.legend a logical value indicating whether the IBD status legend should be plotted. The default is \code{add.legend=TRUE}.
 #' @import ggplot2
 #' @export
+#' @examples
+#' # plot IBD segments
+#' plotIBDsegments(ibd.segments = example_ibd,
+#'                 ped.genotypes = example_genotypes,
+#'                 interval = NULL,
+#'                 annotation.genes = NULL,
+#'                 highlight.genes = NULL,
+#'                 segment.height = 0.5,
+#'                 number.per.page = NULL,
+#'                 add.fid.name = FALSE,
+#'                 add.iid.name = TRUE,
+#'                 add.rug = TRUE,
+#'                 plot.title = "Inferred IBD Segments",
+#'                 add.legend = TRUE)
 plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
                              annotation.genes = NULL, highlight.genes = NULL, segment.height = 0.5,
                              number.per.page = NULL, add.fid.name = TRUE, add.iid.name = TRUE, add.rug = FALSE,
@@ -264,22 +278,25 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
     ibd.segments.2[,"page.num"] <- 1
   }
 
+  # add segment colour
+  ibd.segments.2$segment.col <- ifelse(ibd.segments.2[ibd.segments.2[,"page.num"] == 1,"ibd.status"] == 1, "#69B4FF", "#99DD55")
+
 
   # plotting segments:
 
   for (i in unique(ibd.segments.2[,"page.num"])) {
+
     # base plot
     p <- ggplot()
-    if (add.legend) {
-      p <- p + geom_rect(data=ibd.segments.2[ibd.segments.2[,"page.num"] == i,],
-                         aes_(xmin = ~start.position.bp, xmax = ~end.position.bp, ymin = ~num.ID, ymax = ~num.ID+segment.height),
-                         fill = ifelse(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"ibd.status"] == 1,"#69B4FF","#99DD55"), alpha=0.8)
-      p <- p + scale_fill_manual(name="", values = c("#69B4FF","#99DD55"), labels=c("IBD = 1", "IBD = 2"))
-    } else {
-      p <- p + geom_rect(data=ibd.segments.2[ibd.segments.2[,"page.num"] == i,],
-                         aes_(xmin = ~start.position.bp, xmax = ~end.position.bp, ymin = ~num.ID, ymax = ~num.ID+segment.height),
-                         fill = ifelse(ibd.segments.2[ibd.segments.2[,"page.num"] == i,"ibd.status"] == 1,"#69B4FF","#99DD55"), alpha=0.8)
-    }
+    p <- p + geom_rect(data=ibd.segments.2[ibd.segments.2[,"page.num"] == i,],
+                       aes_(xmin = ~start.position.bp,
+                            xmax = ~end.position.bp,
+                            ymin = ~num.ID,
+                            ymax = ~num.ID+segment.height,
+                            fill = ~segment.col))
+    p <- p + scale_fill_manual(name="", values = c("#69B4FF","#99DD55"), labels=c("IBD = 1", "IBD = 2"))
+
+    # remove grey background and grids
     p <- p + theme_bw()
     p <- p + theme(panel.grid.minor = element_blank(),
                             panel.grid.major = element_blank(),
@@ -287,6 +304,11 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
                             legend.title = element_blank(),
                             strip.text.y = element_text(angle = 360),
                             axis.title.y = element_blank())
+
+    # add or remove legend
+    if (!add.legend) {
+      p <- p + theme(legend.position="none")
+    }
 
     # add rug
     if (add.rug) {

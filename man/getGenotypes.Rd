@@ -139,3 +139,20 @@ allele frequencies and SNPs in high linkage disequilibrium (LD, based on R^2 if 
 Also, calculate population allele frequencies as well as haplotype frequencies between pairs of
 SNPs (based on R^2 if \code{model=2}).
 }
+\examples{
+# look at the simulated data
+str(example_pedmap)
+
+# format and filter the example data using model 2 and reference data
+my_genotypes <- getGenotypes(ped.map = example_pedmap,
+                             reference.ped.map = example_reference_pedmap,
+                             snp.ld = example_reference_ld,
+                             model = 2,
+                             maf = 0.01,
+                             sample.max.missing = 0.1,
+                             snp.max.missing = 0.1,
+                             maximum.ld.r2 = 0.99,
+                             chromosomes = NULL,
+                             input.map.distance = "M",
+                             reference.map.distance = "M")
+}

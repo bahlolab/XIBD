@@ -249,6 +249,132 @@ labeled with merged family IDs and individual IDs separated by a slash symbol (/
 </ol><p>The list is named <code>pedigree, genotypes</code> and <code>model</code> respectively.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># look at the simulated data</span>
+<span class='fu'>str</span>(<span class='no'>example_pedmap</span>)</div><div class='output co'>#&gt; List of 2
+#&gt;  $ :'data.frame':	10 obs. of  57622 variables:
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : int [1:10] 1 2 4 5 8 9 11 14 15 16
+#&gt;   ..$ : num [1:10] 0 0 1 1 4 6 7 9 11 13
+#&gt;   ..$ : num [1:10] 0 0 2 2 3 5 8 10 12 14
+#&gt;   ..$ : num [1:10] 1 2 1 2 2 1 1 2 2 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 1
+#&gt;   ..$ : num [1:10] 2 1 2 1 2 1 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 1 2 2 2 2 1 2 1 1
+#&gt;   ..$ : num [1:10] 2 1 1 1 1 1 1 2 1 2
+#&gt;   ..$ : num [1:10] 2 1 1 1 1 2 2 2 2 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 2 1 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 1 2 2 2 2 1 2 1 2
+#&gt;   ..$ : num [1:10] 2 2 1 2 1 2 1 2 1 2
+#&gt;   ..$ : num [1:10] 2 1 1 1 1 1 1 1 2 2
+#&gt;   ..$ : num [1:10] 1 1 1 1 2 1 2 1 2 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 1 1 1 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 1 1 1 1 2
+#&gt;   ..$ : num [1:10] 2 1 2 1 1 1 1 1 2 1
+#&gt;   ..$ : num [1:10] 1 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 2 1 1 1 1 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 2 1 2 2 2 2 1 2 1
+#&gt;   ..$ : num [1:10] 2 1 2 2 2 2 2 2 2 1
+#&gt;   ..$ : num [1:10] 2 2 1 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 2 1 2 2 2 2 1 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 1 2 2 2 2 1 2 1
+#&gt;   ..$ : num [1:10] 1 2 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 2 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 1 2 1 1 1 1
+#&gt;   ..$ : num [1:10] 2 1 2 2 2 1 1 1 1 2
+#&gt;   ..$ : num [1:10] 2 2 1 2 1 2 1 2 1 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 1 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 1 2 1 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 1 1 1 2 2 2 2 1
+#&gt;   ..$ : num [1:10] 1 1 2 1 2 1 2 1 2 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 2 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 1 2 1 1 2 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 2 1 2 1 2 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 2 2 2 2 1 1 1 1 2
+#&gt;   ..$ : num [1:10] 2 1 2 1 1 1 1 1 2 1
+#&gt;   ..$ : num [1:10] 2 2 1 1 1 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 2 1 2
+#&gt;   ..$ : num [1:10] 2 1 1 1 1 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 1 2 1 2 1 2 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 2 1 2 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 2 1 2 2 1 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 1 2 2 2 2 1 2 2 1
+#&gt;   ..$ : num [1:10] 2 2 1 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 1 2 1 2 2
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 1 2 2 2 1 2 1 2 2
+#&gt;   ..$ : num [1:10] 2 1 1 1 2 1 2 2 2 2
+#&gt;   ..$ : num [1:10] 1 2 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 2 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 1 2 1 2 1
+#&gt;   ..$ : num [1:10] 2 2 2 2 2 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 1 2
+#&gt;   ..$ : num [1:10] 1 2 1 2 1 2 1 1 1 1
+#&gt;   ..$ : num [1:10] 2 1 2 2 2 2 2 2 1 2
+#&gt;   ..$ : num [1:10] 2 1 1 1 1 1 1 2 2 2
+#&gt;   ..$ : num [1:10] 2 1 2 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 2 1 2 2 2 2 2 2 2
+#&gt;   ..$ : num [1:10] 2 1 1 1 1 1 1 1 1 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 1 1 1 2 1
+#&gt;   ..$ : num [1:10] 1 1 1 1 1 2 1 2 1 1
+#&gt;   .. [list output truncated]
+#&gt;  $ :'data.frame':	28808 obs. of  4 variables:
+#&gt;   ..$ : int [1:28808] 1 1 1 1 1 1 1 1 1 1 ...
+#&gt;   ..$ : chr [1:28808] "rs7526076" "rs6671356" "rs10907182" "rs4970362" ...
+#&gt;   ..$ : num [1:28808] 0.0261 0.0267 0.0269 0.0273 0.0281 0.0302 0.0302 0.0303 0.0305 0.0316 ...
+#&gt;   ..$ : int [1:28808] 998395 1040026 1066403 1094738 1106784 1276077 1287040 1310924 1335218 1404809 ...</div><div class='input'>
+<span class='co'># format and filter the example data using model 2 and reference data</span>
+<span class='no'>my_genotypes</span> <span class='kw'>&lt;-</span> <span class='fu'>getGenotypes</span>(<span class='kw'>ped.map</span> <span class='kw'>=</span> <span class='no'>example_pedmap</span>,
+                             <span class='kw'>reference.ped.map</span> <span class='kw'>=</span> <span class='no'>example_reference_pedmap</span>,
+                             <span class='kw'>snp.ld</span> <span class='kw'>=</span> <span class='no'>example_reference_ld</span>,
+                             <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+                             <span class='kw'>maf</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+                             <span class='kw'>sample.max.missing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+                             <span class='kw'>snp.max.missing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+                             <span class='kw'>maximum.ld.r2</span> <span class='kw'>=</span> <span class='fl'>0.99</span>,
+                             <span class='kw'>chromosomes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                             <span class='kw'>input.map.distance</span> <span class='kw'>=</span> <span class='st'>"M"</span>,
+                             <span class='kw'>reference.map.distance</span> <span class='kw'>=</span> <span class='st'>"M"</span>)</div><div class='output co'>#&gt; Begin filtering of 10 samples and 28808 SNPs...
+#&gt; 28808 SNPs remain after merging with reference dataset...
+#&gt; 28805 SNPs remain after MAF removal...
+#&gt; 28558 SNPs remain after missingness removal...
+#&gt; 28297 SNPs remain after LD removal...
+#&gt; 10 samples remain after missingness removal...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -256,7 +382,9 @@ labeled with merged family IDs and individual IDs separated by a slash symbol (/
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

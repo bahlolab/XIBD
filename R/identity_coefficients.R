@@ -39,6 +39,22 @@ globalVariables("pair.i")
 #' @importFrom foreach "%dopar%"
 #' @importFrom identity identity.coefs
 #' @export
+#' @examples
+#' \dontrun{
+#' # generate a pedigree
+#' my_pedigree <- data.frame(fid = rep(1,16),
+#'                           iid = 1:16,
+#'                           pid = c(0,0,0,1,1,0,0,4,6,0,7,0,0,9,11,13),
+#'                           mid = c(0,0,0,2,2,0,0,3,5,0,8,0,0,10,12,14),
+#'                           sex = c(1,2,2,1,2,1,1,2,1,2,1,2,1,2,2,1),
+#'                           aff = rep(1,16))
+#'
+#' # calculate identity coefficients
+#' identity_coef <- getIdentityCoef(pedigree = my_pedigree,
+#'                                  number.cores = 1)
+#'
+#' head(identity_coef)
+#' }
 getIdentityCoef <- function(pedigree, number.cores) {
   # check pedigree
   stopifnot(ncol(pedigree) == 6)

@@ -154,12 +154,31 @@ with respective labels.</p></td>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># generate a binary IBD matrix</span>
+<span class='no'>my_locus_matrix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getLocusMatrix.html'>getLocusMatrix</a></span>(<span class='kw'>ped.genotypes</span> <span class='kw'>=</span> <span class='no'>example_genotypes</span>,
+                                  <span class='kw'>ibd.segments</span> <span class='kw'>=</span> <span class='no'>example_ibd</span>)
+
+<span class='co'># calculate the proportion of pairs IBD at each SNP</span>
+<span class='no'>my_locus_prop</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getLocusProportion.html'>getLocusProportion</a></span>(<span class='kw'>ped.genotypes</span> <span class='kw'>=</span> <span class='no'>example_genotypes</span>,
+                                    <span class='kw'>locus.matrix</span> <span class='kw'>=</span> <span class='no'>my_locus_matrix</span>,
+                                    <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='co'># plot the proportion of pairs IBD</span>
+<span class='fu'>plotIBDproportions</span>(<span class='kw'>locus.proportions</span> <span class='kw'>=</span> <span class='no'>my_locus_prop</span>,
+                   <span class='kw'>interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                   <span class='kw'>annotation.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                   <span class='kw'>highlight.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                   <span class='kw'>add.rug</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                   <span class='kw'>plot.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='img'><img src='plotIBDproportions-1.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

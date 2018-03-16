@@ -42,3 +42,13 @@ these column header by group IDs and the number of pairs in the group.
 \description{
 Calculate the proportion of pairs IBD at each SNP.
 }
+\examples{
+# generate a binary IBD matrix
+my_locus_matrix <- getLocusMatrix(ped.genotypes = example_genotypes,
+                                  ibd.segments = example_ibd)
+
+# calculate the proportion of pairs IBD at each SNP
+my_locus_prop <- getLocusProportion(ped.genotypes = example_genotypes,
+                                    locus.matrix = my_locus_matrix,
+                                    groups = NULL)
+}

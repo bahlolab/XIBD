@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>XIBD Binary IBD Matrix — getLocusMatrix • XIBD</title>
+<title>IBD Segments For The Simulated Data — example_ibd • XIBD</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,9 +27,10 @@
 <script src="../pkgdown.js"></script>
   
   
-<meta property="og:title" content="XIBD Binary IBD Matrix — getLocusMatrix" />
+<meta property="og:title" content="IBD Segments For The Simulated Data — example_ibd" />
 
-<meta property="og:description" content="Returns a binary matrix of IBD (1) and non-IBD (0) for each SNP and pair combination." />
+<meta property="og:description" content="The IBD segments inferred using XIBD with the
+parameter settings as in the Vignette." />
 <meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -93,57 +94,44 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>XIBD Binary IBD Matrix</h1>
+    <h1>IBD Segments For The Simulated Data</h1>
     </div>
 
     
-    <p>Returns a binary matrix of IBD (1) and non-IBD (0) for each SNP and pair combination.</p>
+    <p>The IBD segments inferred using XIBD with the
+parameter settings as in the Vignette.</p>
     
 
-    <pre class="usage"><span class='fu'>getLocusMatrix</span>(<span class='no'>ped.genotypes</span>, <span class='no'>ibd.segments</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>ped.genotypes</th>
-      <td><p>a named list containing <code>pedigree</code>, <code>genotypes</code> and <code>model</code>.
-See <code>Value</code> description in <code><a href='getGenotypes.html'>getGenotypes</a></code> for more details.
-The family IDs and individual IDs in <code>pedigree</code> must match the family IDs and individual IDs in the header of <code>genotypes</code>.</p></td>
-    </tr>
-    <tr>
-      <th>ibd.segments</th>
-      <td><p>a named list containing the <code>ibd_segments</code> inferred from pairs of samples.
-See <code>value</code> description in <code><a href='getIBDsegments.html'>getIBDsegments</a></code> for more details.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>example_ibd</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame the first four columns:</p><ol>
-<li><p>Chromosome (type <code>"character"</code>, <code>"numeric"</code> or <code>"integer"</code>)</p></li>
-<li><p>SNP identifiers (type <code>"character"</code>)</p></li>
-<li><p>Genetic map distance (centi morgans, cM) (type <code>"numeric"</code>)</p></li>
-<li><p>Base-pair position (type <code>"integer"</code>)</p></li>
-</ol><p>where each row describes a unique SNP. These columns are headed <code>chr, snp_id, pos_M</code> and <code>pos_bp</code> respectively.
-Columns 5 onwards contain the binary IBD information for each sample pair, where a single column corresponds to a single pair.
-These columns are labeled with merged family IDs and individual IDs separated by a slash symbol (/). For example famA/ind1/famA/ind2.</p>
+    <p>A data frame with</p><dl class='dl-horizontal'>
+<dt>fid1</dt><dd><p>Family 1 ID</p></dd>
+<dt>iid1</dt><dd><p>Individual 1 ID</p></dd>
+<dt>fid2</dt><dd><p>Family 2 ID</p></dd>
+<dt>iid2</dt><dd><p>Individual 2 ID</p></dd>
+<dt>chr</dt><dd><p>Chromosome</p></dd>
+<dt>start_snp</dt><dd><p>IBD segment start SNP ID</p></dd>
+<dt>end_snp</dt><dd><p>IBD segment end SNP ID</p></dd>
+<dt>start_position_bp</dt><dd><p>IBD segment start SNP base-pair position</p></dd>
+<dt>end_position_bp</dt><dd><p>IBD segment end SNP base-pair position</p></dd>
+<dt>start_position_M</dt><dd><p>IBD segment start SNP morgan position</p></dd>
+<dt>end_position_M</dt><dd><p>IBD segment end SNP morgan position</p></dd>
+<dt>number_snps</dt><dd><p>Number of SNPs in IBD segment</p></dd>
+<dt>length_bp</dt><dd><p>Length of IBD segment in base-pairs</p></dd>
+<dt>length_M</dt><dd><p>Length of IBD segment in morgans</p></dd>
+<dt>ibd_status</dt><dd><p>The number of alleles shared IBD (either 1 or 2)</p></dd>
+</dl>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># generate a binary IBD matrix</span>
-<span class='no'>my_locus_matrix</span> <span class='kw'>&lt;-</span> <span class='fu'>getLocusMatrix</span>(<span class='kw'>ped.genotypes</span> <span class='kw'>=</span> <span class='no'>example_genotypes</span>,
-                                  <span class='kw'>ibd.segments</span> <span class='kw'>=</span> <span class='no'>example_ibd</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#format">Format</a></li>
+          </ul>
 
   </div>
 </div>

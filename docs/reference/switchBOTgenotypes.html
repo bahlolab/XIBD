@@ -165,6 +165,43 @@ This file contains the following 7 columns of information:</p><ol>
     <p>A named list of the same format as the input <code>ped.genotypes</code> with A and B alleles switched for BOT SNPs.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># The following should only be run if you have Illumina data and</span>
+<span class='co'># are using the HapMap reference data provided by XIBD.</span>
+
+<span class='co'># format and filter the data</span>
+<span class='no'>my_genotypes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getGenotypes.html'>getGenotypes</a></span>(<span class='kw'>ped.map</span> <span class='kw'>=</span> <span class='no'>example_pedmap</span>,
+                             <span class='kw'>reference.ped.map</span> <span class='kw'>=</span> <span class='no'>example_reference_pedmap</span>,
+                             <span class='kw'>snp.ld</span> <span class='kw'>=</span> <span class='no'>example_reference_ld</span>,
+                             <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+                             <span class='kw'>maf</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+                             <span class='kw'>sample.max.missing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+                             <span class='kw'>snp.max.missing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+                             <span class='kw'>maximum.ld.r2</span> <span class='kw'>=</span> <span class='fl'>0.99</span>,
+                             <span class='kw'>chromosomes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                             <span class='kw'>input.map.distance</span> <span class='kw'>=</span> <span class='st'>"M"</span>,
+                             <span class='kw'>reference.map.distance</span> <span class='kw'>=</span> <span class='st'>"M"</span>)</div><div class='output co'>#&gt; Begin filtering of 10 samples and 28808 SNPs...
+#&gt; 28808 SNPs remain after merging with reference dataset...
+#&gt; 28805 SNPs remain after MAF removal...
+#&gt; 28558 SNPs remain after missingness removal...
+#&gt; 28297 SNPs remain after LD removal...
+#&gt; 10 samples remain after missingness removal...</div><div class='input'>
+<span class='co'># calculate allele frequencies from the input dataset</span>
+<span class='no'>input_freq</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculateAlleleFreq.html'>calculateAlleleFreq</a></span>(<span class='kw'>ped.genotypes</span> <span class='kw'>=</span> <span class='no'>my_genotypes</span>)
+<span class='fu'>hist</span>(<span class='fu'>abs</span>(<span class='no'>my_genotypes</span><span class='kw'>[[</span><span class='st'>"genotypes"</span>]][,<span class='st'>"freq"</span>] - <span class='no'>input_freq</span>[,<span class='st'>"freq"</span>]),
+     <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>1</span>),
+     <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Before BOT change"</span>,
+     <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"abs(pop allele freq diff)"</span>)</div><div class='img'><img src='switchBOTgenotypes-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='co'># switch alleles</span>
+<span class='no'>my_genotypes_2</span> <span class='kw'>&lt;-</span> <span class='fu'>switchBOTgenotypes</span>(<span class='kw'>ped.genotypes</span> <span class='kw'>=</span> <span class='no'>my_genotypes</span>,
+                                     <span class='kw'>hapmap.topbot</span> <span class='kw'>=</span> <span class='no'>example_hapmap_topbot</span>)
+
+<span class='co'># calculate allele frequencies when BOT alleles switched</span>
+<span class='no'>input_freq</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculateAlleleFreq.html'>calculateAlleleFreq</a></span>(<span class='kw'>ped.genotypes</span> <span class='kw'>=</span> <span class='no'>my_genotypes_2</span>)
+<span class='fu'>hist</span>(<span class='fu'>abs</span>(<span class='no'>my_genotypes_2</span><span class='kw'>[[</span><span class='st'>"genotypes"</span>]][,<span class='st'>"freq"</span>] - <span class='no'>input_freq</span>[,<span class='st'>"freq"</span>]),
+     <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>1</span>),
+     <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"After BOT change"</span>,
+     <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"abs(pop allele freq diff)"</span>)</div><div class='img'><img src='switchBOTgenotypes-2.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -172,7 +209,9 @@ This file contains the following 7 columns of information:</p><ol>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

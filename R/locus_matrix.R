@@ -18,6 +18,10 @@
 #' Columns 5 onwards contain the binary IBD information for each sample pair, where a single column corresponds to a single pair.
 #' These columns are labeled with merged family IDs and individual IDs separated by a slash symbol (/). For example famA/ind1/famA/ind2.
 #' @export
+#' @examples
+#' # generate a binary IBD matrix
+#' my_locus_matrix <- getLocusMatrix(ped.genotypes = example_genotypes,
+#'                                   ibd.segments = example_ibd)
 getLocusMatrix <- function(ped.genotypes, ibd.segments){
 
   # check format of input data

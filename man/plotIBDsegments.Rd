@@ -66,3 +66,18 @@ The default is \code{add.iid.name=TRUE}.}
 Plot IBD segments for pairs across the genome.
 Annotation genes can be added to the plot and specific genes on interest can be highlighted.
 }
+\examples{
+# plot IBD segments
+plotIBDsegments(ibd.segments = example_ibd,
+                ped.genotypes = example_genotypes,
+                interval = NULL,
+                annotation.genes = NULL,
+                highlight.genes = NULL,
+                segment.height = 0.5,
+                number.per.page = NULL,
+                add.fid.name = FALSE,
+                add.iid.name = TRUE,
+                add.rug = TRUE,
+                plot.title = "Inferred IBD Segments",
+                add.legend = TRUE)
+}

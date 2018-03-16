@@ -4,6 +4,7 @@ Title: Identity-by-Descent Analysis of the Human Genome
 Version: 0.1.0
 Authors@R: person("Lyndal", "Henden", email = "lyndal_henden@hotmail.com", role = c("aut", "cre"))
 Description: Pairwise identity by descent (IBD) inference of autosomal chromosomes and the X chromosome using SNP genotype data.
+    Henden L, Wakeham D, Bahlo M. (2016). doi:10.1093/bioinformatics/btw124.
 Depends:
     R (>= 3.2.1)
 License: MIT + file LICENSE

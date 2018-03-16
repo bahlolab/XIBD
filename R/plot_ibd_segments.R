@@ -279,7 +279,7 @@ plotIBDsegments <- function (ibd.segments, ped.genotypes, interval = NULL,
   }
 
   # add segment colour
-  ibd.segments.2$segment.col <- ifelse(ibd.segments.2[ibd.segments.2[,"page.num"] == 1,"ibd.status"] == 1, "#69B4FF", "#99DD55")
+  ibd.segments.2$segment.col <- ifelse(ibd.segments.2[,"ibd.status"] == 1, "#69B4FF", "#99DD55")
 
 
   # plotting segments:
